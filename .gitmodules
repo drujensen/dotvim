@@ -55,3 +55,6 @@
 [submodule "bundle/vim-wayback-machine"]
 	path = bundle/vim-wayback-machine
 	url = git://github.com/drujensen/vim-wayback-machine.git
+[submodule "bundle/vim-nerdtree"]
+	path = bundle/vim-nerdtree
+	url = git@github.com:scrooloose/nerdtree.git
