@@ -1,2 +1,3 @@
 # dotvim
-My dot vim directory
+`git clone {github} ~/.vim`
+`ln -sf ~/.vim/vimrc ~/.vimrc`
