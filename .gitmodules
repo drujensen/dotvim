@@ -58,3 +58,6 @@
 [submodule "bundle/vim-nerdtree"]
 	path = bundle/vim-nerdtree
 	url = git@github.com:scrooloose/nerdtree.git
+[submodule "bundle/vim-conque-term"]
+	path = bundle/vim-conque-term
+	url = git://github.com/rosenfeld/conque-term.git

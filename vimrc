@@ -117,9 +117,10 @@ function MyConqueTermSplit(command)
   let g:conque_window = conque_term#open(a:command, ['below split', 'resize 10'], 0)
 endfunction
 
-let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("zeus cucumber {feature}")'
-let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("zeus rspec {spec}")'
+let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("cucumber {feature}")'
+let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("rspec {spec}")'
 
+" enable ruby completion
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
