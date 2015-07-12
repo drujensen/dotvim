@@ -31,7 +31,9 @@ set gfn=Monaco:h14
 
 " NerdCommentor
 filetype plugin indent on
-set omnifunc=syntaxcomplete#Complete
+
+" Auto Complete
+" set omnifunc=syntaxcomplete#Complete
 
 " treat all .md files as markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
@@ -121,7 +123,7 @@ let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("cucumber {feat
 let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("rspec {spec}")'
 
 " enable ruby completion
-let g:rubycomplete_buffer_loading = 1
-let g:rubycomplete_classes_in_global = 1
-let g:rubycomplete_rails = 1
+" let g:rubycomplete_buffer_loading = 1
+" let g:rubycomplete_classes_in_global = 1
+" let g:rubycomplete_rails = 1
 
