@@ -1,5 +1,7 @@
 execute pathogen#infect()
 syntax on
+filetype plugin indent on
+colorscheme SlateDark
 
 set vb
 set nocp
@@ -8,38 +10,30 @@ set expandtab
 set autoindent
 set nocompatible
 
-set mouse=a
+set showmatch
+set incsearch
+set hlsearch
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set clipboard=unnamed
 set textwidth=78
 set history=10000
+set t_Co=256
+set gfn=Monaco:h14 " Set the font
+set laststatus=2 " In order for airline to show with NerdTree, need to set the laststatus=2
+set mouse=ar mousemodel=extend 
 
-" In order for airline to show with NerdTree, need to set the laststatus=2
-set laststatus=2
-
+" NerdCommentor
 filetype plugin indent on
-colorscheme SlateDark
-
-" Set the font
-set gfn=Monaco:h14
-
-" Auto Complete
-" set omnifunc=syntaxcomplete#Complete
+set omnifunc=syntaxcomplete#Complete
 
 " treat all .md files as markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
-set showmatch
-set incsearch
-set hlsearch
-
-
 " Toggle paste mode with Alt-p
 nnoremap π :set invpaste paste?<CR>
 set pastetoggle=π
-
 
 " Shift+Direction selects text
 nmap <S-Up> V
@@ -55,14 +49,14 @@ imap <S-Down> <Esc>V
 imap <S-Left> <Esc>lv<Left>
 imap <S-Right> <Esc>lv<Right>
 
-" Set my leader key to be a comma
-let mapleader = ","
 
-" Toggle Buffers
 map <C-b> :buffers<CR>:buffer<Space>
-
-" Toggle Tag Bar
 map <C-m> :TagbarToggle<CR>
+
+map <C-n> :NERDTreeMirrorToggle<CR>
+map <C-f> :NERDTreeFind<CR>
+
+let mapleader = "," " Set my leader key to be a comma
 
 " Alternate between test files and paired code files
 nnoremap <leader>. :OpenAlternate<cr>
@@ -72,13 +66,18 @@ map <leader>t :call RunAllTestsInCurrentTestFile()<cr>
 map <leader>s :call RunNearestTest()<cr>
 map <leader>a :call RunAllRSpecTests()<cr>
 map <leader>c :call RunAllCucumberFeatures()<cr>
+map <leader>w :call RunWipCucumberFeatures()<cr>
 
 " Screen settings
 let g:ScreenImpl = 'Tmux'
 let g:ScreenShellTmuxInitArgs = '-2'
 let g:ScreenShellHeight = 10
 
+" NERDTree settings
+let g:nerdtree_tabs_focus_on_files=1
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
+" Git settings
 nnoremap <silent> <Leader>gd :Gdiff<CR>
 nnoremap <silent> <Leader>gb :Gblame<CR>
 
@@ -91,7 +90,6 @@ function! GlobalFind()
 endfunction
 map <leader>f :call GlobalFind()<CR>
 
-" Custom Find and Replace
 function! SearchAndReplace()
   let search = inputdialog('Search: ', expand('<cword>'), '')
   if search != ''
@@ -103,16 +101,7 @@ function! SearchAndReplace()
 endfunction
 map <leader>r :call SearchAndReplace()<CR>
 
-" NERDTree
-map <C-n> :NERDTreeMirrorToggle<CR>
-map <C-f> :NERDTreeFind<CR>
-
-" Keep focus on files
-let g:nerdtree_tabs_focus_on_files=1
-
-" quit NERDTree if all buffers are quit
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
+" Run tests in a shell - two alternatives being used
 function MyConqueTermSplit(command)
   if exists("g:conque_window")
     execute 'bunload ' . g:conque_window.buffer_name 
@@ -121,8 +110,8 @@ function MyConqueTermSplit(command)
 endfunction
 
 " Run tests in ConqueTermSplit
-" let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("bundle exec cucumber {feature}")'
-" let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("bundle exec rspec {spec}")'
+" let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("zeus cucumber {feature}")'
+" let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("zeus rspec {spec}")'
 
 function MyScreenShellSplit(command)
  :ScreenShell
@@ -130,7 +119,6 @@ function MyScreenShellSplit(command)
 endfunction
 
 " Run tests in Screen Shell
-let g:vim_test_recall_cucumber_command = 'call MyScreenShellSplit("bundle exec cucumber {feature}")'
-let g:vim_test_recall_rspec_command = 'call MyScreenShellSplit("bundle exec rspec {spec}")'
-
+let g:vim_test_recall_cucumber_command = 'call MyScreenShellSplit("zeus cucumber {feature}")'
+let g:vim_test_recall_rspec_command = 'call MyScreenShellSplit("zeus rspec {spec}")'
 
