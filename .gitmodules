@@ -61,3 +61,6 @@
 [submodule "bundle/vim-conque-term"]
 	path = bundle/vim-conque-term
 	url = git://github.com/rosenfeld/conque-term.git
+[submodule "bundle/vim-screen"]
+	path = bundle/vim-screen
+	url = git@github.com:ervandew/screen.git
