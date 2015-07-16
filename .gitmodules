@@ -64,3 +64,6 @@
 [submodule "bundle/vim-screen"]
 	path = bundle/vim-screen
 	url = git@github.com:ervandew/screen.git
+[submodule "bundle/vim-multiple-cursors"]
+	path = bundle/vim-multiple-cursors
+	url = git@github.com:terryma/vim-multiple-cursors.git

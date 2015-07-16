@@ -56,6 +56,16 @@ map <C-m> :TagbarToggle<CR>
 map <C-n> :NERDTreeMirrorToggle<CR>
 map <C-f> :NERDTreeFind<CR>
 
+map <C-\> :ScreenShell<CR>
+
+" Mappings for multi-cursor
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_next_key='<C-o>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
+
 let mapleader = "," " Set my leader key to be a comma
 
 " Alternate between test files and paired code files
