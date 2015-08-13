@@ -9,7 +9,7 @@ set hidden
 set expandtab
 set autoindent
 set nocompatible
-
+set noswapfile
 set showmatch
 set incsearch
 set hlsearch
