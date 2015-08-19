@@ -76,7 +76,6 @@ map <leader>t :call RunAllTestsInCurrentTestFile()<cr>
 map <leader>s :call RunNearestTest()<cr>
 map <leader>a :call RunAllRSpecTests()<cr>
 map <leader>c :call RunAllCucumberFeatures()<cr>
-map <leader>w :call RunWipCucumberFeatures()<cr>
 
 " Screen settings
 let g:ScreenImpl = 'Tmux'
@@ -129,6 +128,7 @@ function MyScreenShellSplit(command)
 endfunction
 
 " Run tests in Screen Shell
-let g:vim_test_recall_cucumber_command = 'call MyScreenShellSplit("zeus cucumber {feature}")'
-let g:vim_test_recall_rspec_command = 'call MyScreenShellSplit("zeus rspec {spec}")'
+let g:vim_test_recall_cucumber_command = 'call MyScreenShellSplit("be cucumber {feature}")'
+let g:vim_test_recall_rspec_command = 'call MyScreenShellSplit("be rspec {spec}")'
+let g:vim_test_recall_crystal_command = 'call MyScreenShellSplit("crystal spec {spec}")'
 

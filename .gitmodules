@@ -48,13 +48,13 @@
 	url = git://github.com/majutsushi/tagbar
 [submodule "bundle/vim-test-recall"]
 	path = bundle/vim-test-recall
-	url = git://github.com/drujensen/vim-test-recall.git
+	url = git@github.com:drujensen/vim-test-recall.git
 [submodule "bundle/vim-tslime"]
 	path = bundle/vim-tslime
 	url = git://github.com/jgdavey/tslime.vim.git
 [submodule "bundle/vim-wayback-machine"]
 	path = bundle/vim-wayback-machine
-	url = git://github.com/drujensen/vim-wayback-machine.git
+	url = git@github.com:drujensen/vim-wayback-machine.git
 [submodule "bundle/vim-nerdtree"]
 	path = bundle/vim-nerdtree
 	url = git@github.com:scrooloose/nerdtree.git
