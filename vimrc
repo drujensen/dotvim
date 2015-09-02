@@ -58,6 +58,8 @@ map <C-f> :NERDTreeFind<CR>
 
 map <C-\> :ScreenShell<CR>
 
+map <C-_> <plug>NERDCommenterToggle<CR>
+
 " Mappings for multi-cursor
 let g:multi_cursor_use_default_mapping=0
 let g:multi_cursor_next_key='<C-o>'
@@ -131,4 +133,6 @@ endfunction
 let g:vim_test_recall_cucumber_command = 'call MyScreenShellSplit("be cucumber {feature}")'
 let g:vim_test_recall_rspec_command = 'call MyScreenShellSplit("be rspec {spec}")'
 let g:vim_test_recall_crystal_command = 'call MyScreenShellSplit("crystal spec {spec}")'
+
+let g:ScreenShellTmuxInitArgs = 'new-session -c "$PWD"'
 
