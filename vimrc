@@ -121,8 +121,9 @@ function MyConqueTermSplit(command)
 endfunction
 
 " Run tests in ConqueTermSplit
-" let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("zeus cucumber {feature}")'
-" let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("zeus rspec {spec}")'
+let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("zeus cucumber {feature}")'
+let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("zeus rspec {spec}")'
+let g:vim_test_recall_crystal_command = 'call MyConqueTermSplit("crystal spec {spec}")'
 
 function MyScreenShellSplit(command)
  :ScreenShell
@@ -130,9 +131,9 @@ function MyScreenShellSplit(command)
 endfunction
 
 " Run tests in Screen Shell
-let g:vim_test_recall_cucumber_command = 'call MyScreenShellSplit("be cucumber {feature}")'
-let g:vim_test_recall_rspec_command = 'call MyScreenShellSplit("be rspec {spec}")'
-let g:vim_test_recall_crystal_command = 'call MyScreenShellSplit("crystal spec {spec}")'
+"let g:vim_test_recall_cucumber_command = 'call MyScreenShellSplit("be cucumber {feature}")'
+"let g:vim_test_recall_rspec_command = 'call MyScreenShellSplit("be rspec {spec}")'
+"let g:vim_test_recall_crystal_command = 'call MyScreenShellSplit("crystal spec {spec}")'
 
 let g:ScreenShellTmuxInitArgs = 'new-session -c "$PWD"'
 
