@@ -49,6 +49,15 @@ imap <S-Down> <Esc>V
 imap <S-Left> <Esc>lv<Left>
 imap <S-Right> <Esc>lv<Right>
 
+" Tab between splits
+nmap <Tab> <c-w><c-w>
+nmap <s-Tab> <c-w><s-w>
+imap <c-Tab> <Esc>:tabnext<Cr>
+imap <c-S-Tab> <Esc>:tabprev<Cr>
+nmap <c-Tab> :tabnext<Cr>
+nmap <c-S-Tab> :tabprev<Cr>
+
+
 map <C-b> :buffers<CR>:buffer<Space>
 map <C-x> :pop<CR>
 map <C-t> :TagbarToggle<CR>
