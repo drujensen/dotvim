@@ -23,6 +23,8 @@ set t_Co=256
 set gfn=Monaco:h14 " Set the font
 set laststatus=2 " In order for airline to show with NerdTree, need to set the laststatus=2
 set mouse=ar mousemodel=extend 
+set exrc
+set secure
 
 " NerdCommentor
 filetype plugin indent on
@@ -146,3 +148,5 @@ endfunction
 
 let g:ScreenShellTmuxInitArgs = 'new-session -c "$PWD"'
 
+" Base64 Decode Selection
+vnoremap <leader>64 y:echo system('base64 --decode', @")<cr>
