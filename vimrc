@@ -67,7 +67,7 @@ map <C-t> :TagbarToggle<CR>
 map <C-n> :NERDTreeMirrorToggle<CR>
 map <C-f> :NERDTreeFind<CR>
 
-map <C-\> :ScreenShell<CR>
+map <C-\> :ConqueTermSplit 
 
 map <C-_> <plug>NERDCommenterToggle<CR>
 
