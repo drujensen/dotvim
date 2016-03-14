@@ -1,7 +1,8 @@
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
-colorscheme onedark
+set background=dark
+colorscheme solarized
 
 set vb
 set nocp
