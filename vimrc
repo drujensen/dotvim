@@ -38,6 +38,9 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 nnoremap π :set invpaste paste?<CR>
 set pastetoggle=π
 
+"This unsets the "last search pattern" register by hitting return
+nnoremap <CR> :noh<CR><CR>
+
 " Shift+Direction selects text
 nmap <S-Up> V
 nmap <S-Down> V
