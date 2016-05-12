@@ -40,6 +40,12 @@
 [submodule "bundle/vim-scala"]
 	path = bundle/vim-scala
 	url = git://github.com/derekwyatt/vim-scala.git
+[submodule "bundle/vim-crystal"]
+	path = bundle/vim-crystal
+	url = git@github.com:rhysd/vim-crystal.git
+[submodule "bundle/vim-typescript"]
+	path = bundle/vim-typescript
+	url = git@github.com:leafgarland/typescript-vim.git
 [submodule "bundle/vim-tagbar"]
 	path = bundle/vim-tagbar
 	url = git://github.com/majutsushi/tagbar
@@ -61,6 +67,3 @@
 [submodule "bundle/vim-multiple-cursors"]
 	path = bundle/vim-multiple-cursors
 	url = git@github.com:terryma/vim-multiple-cursors.git
-[submodule "bundle/vim-crystal"]
-	path = bundle/vim-crystal
-	url = git@github.com:rhysd/vim-crystal.git
