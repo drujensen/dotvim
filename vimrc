@@ -42,6 +42,9 @@ set pastetoggle=π
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
 
+"F5 will remove all trailing spaces
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
 " Shift+Direction selects text
 nmap <S-Up> V
 nmap <S-Down> V
