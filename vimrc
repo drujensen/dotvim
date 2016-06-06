@@ -26,6 +26,7 @@ set laststatus=2 " In order for airline to show with NerdTree, need to set the l
 set mouse=ar mousemodel=extend 
 set exrc
 set secure
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
 " NerdCommentor
 filetype plugin indent on
