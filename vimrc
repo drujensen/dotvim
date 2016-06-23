@@ -86,6 +86,8 @@ let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
 
+" Ignore warnings of Global CursorHoldI
+let g:ConqueTerm_StartMessages = 0
 
 let mapleader = "," " Set my leader key to be a comma
 
@@ -97,6 +99,9 @@ map <leader>t :call RunAllTestsInCurrentTestFile()<cr>
 map <leader>s :call RunNearestTest()<cr>
 map <leader>a :call RunAllRSpecTests()<cr>
 map <leader>c :call RunAllCucumberFeatures()<cr>
+
+" Base64 Decode Selection
+vnoremap <leader>64 y:echo system('base64 --decode', @")<cr>
 
 " Screen settings
 let g:ScreenImpl = 'Tmux'
@@ -140,8 +145,8 @@ function MyConqueTermSplit(command)
 endfunction
 
 " Run tests in ConqueTermSplit
-let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("zeus cucumber {feature}")'
-let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("zeus rspec {spec}")'
+let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("cucumber {feature}")'
+let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("rspec {spec}")'
 let g:vim_test_recall_crystal_command = 'call MyConqueTermSplit("crystal spec {spec}")'
 
 function MyScreenShellSplit(command)
@@ -156,5 +161,4 @@ endfunction
 
 let g:ScreenShellTmuxInitArgs = 'new-session -c "$PWD"'
 
-" Base64 Decode Selection
-vnoremap <leader>64 y:echo system('base64 --decode', @")<cr>
+
