@@ -168,6 +168,7 @@ endfunction
 let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("cucumber {feature}")'
 let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("rspec {spec}")'
 let g:vim_test_recall_crystal_command = 'call MyConqueTermSplit("crystal spec {spec}")'
+let g:vim_test_recall_javascript_command = 'call MyConqueTermSplit("jasmine {spec}")'
 
 function MyScreenShellSplit(command)
  :ScreenShell
