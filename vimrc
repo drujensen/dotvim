@@ -47,18 +47,21 @@ nnoremap <CR> :noh<CR><CR>
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " Shift+Direction selects text
-nmap <S-Up> V
-nmap <S-Down> V
-nmap <S-Left> v<Left>
-nmap <S-Right> v<Right>
-vmap <S-Up> <Up>
-vmap <S-Down> <Down>
-vmap <S-Left> <Left>
-vmap <S-Right> <Right>
-imap <S-Up> <Esc>V
-imap <S-Down> <Esc>V
-imap <S-Left> <Esc>lv<Left>
-imap <S-Right> <Esc>lv<Right>
+if has("gui_macvim")
+  let macvim_hig_shift_movement = 1
+endif
+" nmap <S-Up> V
+" nmap <S-Down> V
+" nmap <S-Left> v<Left>
+" nmap <S-Right> v<Right>
+" vmap <S-Up> <Up>
+" vmap <S-Down> <Down>
+" vmap <S-Left> <Left>
+" vmap <S-Right> <Right>
+" imap <S-Up> <Esc>V
+" imap <S-Down> <Esc>V
+" imap <S-Left> <Esc>lv<Left>
+" imap <S-Right> <Esc>lv<Right>
 
 " Tab between splits
 nmap <Tab> <c-w><c-w>
