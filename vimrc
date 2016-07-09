@@ -125,18 +125,18 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 nnoremap <leader>g  :Git<Space>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gc :Gcommit -v -q<CR>
-nnoremap <leader>gt :Gcommit -v -q %<CR>
+nnoremap <leader>go :Git checkout<Space>
+nnoremap <leader>gco :Git checkout<Space>
 nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>ge :Gedit<CR>
 nnoremap <leader>gr :Gread<CR>
 nnoremap <leader>ga :Gwrite<CR>
-nnoremap <leader>gl :silent! Glog<CR>
-nnoremap <leader>gll :Git ll<CR>
-nnoremap <leader>glg :Git lg<CR>
+nnoremap <leader>gl :Glog<Space>
+nnoremap <leader>gll :call MyConqueTermSplit("git ll")<CR>
+nnoremap <leader>glg :call MyConqueTermSplit("git lg")<CR>
 nnoremap <leader>gg :Ggrep<Space>
 nnoremap <leader>gm :Gmove<Space>
 nnoremap <leader>gbr :Git branch<Space>
-nnoremap <leader>go :Git checkout<Space>
 nnoremap <leader>gps :Git push<Space>
 nnoremap <leader>gpl :Git pull<Space>
 nnoremap <Leader>gb :Gblame<CR>
