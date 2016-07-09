@@ -128,14 +128,14 @@ nnoremap <leader>gt :Gcommit -v -q %<CR>
 nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>ge :Gedit<CR>
 nnoremap <leader>gr :Gread<CR>
-nnoremap <leader>ga :Gwrite<CR><CR>
+nnoremap <leader>ga :Gwrite<CR>
 nnoremap <leader>gl :silent! Glog<CR>
 nnoremap <leader>gg :Ggrep<Space>
 nnoremap <leader>gm :Gmove<Space>
 nnoremap <leader>gbr :Git branch<Space>
 nnoremap <leader>go :Git checkout<Space>
-nnoremap <leader>gps :Git push<CR>
-nnoremap <leader>gpl :Git pull<CR>
+nnoremap <leader>gps :Git push<Space>
+nnoremap <leader>gpl :Git pull<Space>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gn :cnext<CR>
 nnoremap <Leader>gp :cprev<CR>
