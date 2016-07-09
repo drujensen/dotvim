@@ -131,6 +131,8 @@ nnoremap <leader>ge :Gedit<CR>
 nnoremap <leader>gr :Gread<CR>
 nnoremap <leader>ga :Gwrite<CR>
 nnoremap <leader>gl :silent! Glog<CR>
+nnoremap <leader>gll :Git ll<CR>
+nnoremap <leader>glg :Git lg<CR>
 nnoremap <leader>gg :Ggrep<Space>
 nnoremap <leader>gm :Gmove<Space>
 nnoremap <leader>gbr :Git branch<Space>
