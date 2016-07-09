@@ -24,7 +24,7 @@ set history=10000
 set t_Co=256
 set gfn=Monaco:h14 " Set the font
 set laststatus=2 " In order for airline to show with NerdTree, need to set the laststatus=2
-set mouse=ar mousemodel=extend 
+set mouse=ar mousemodel=extend
 set exrc
 set secure
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
@@ -50,6 +50,11 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 if has("gui_macvim")
   let macvim_hig_shift_movement = 1
 endif
+
+" Tab/Shift Tab in Visual mode
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
+
 " nmap <S-Up> V
 " nmap <S-Down> V
 " nmap <S-Left> v<Left>
@@ -79,7 +84,7 @@ map <C-t> :TagbarToggle<CR>
 map <C-n> :NERDTreeMirrorToggle<CR>
 map <C-f> :NERDTreeFind<CR>
 
-map <C-\> :ConqueTermSplit 
+map <C-\> :ConqueTermSplit
 
 map <C-_> <plug>NERDCommenterToggle<CR>
 
@@ -119,12 +124,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " Git settings
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gc :Gcommit -v -q<CR>
-nnoremap <leader>ga :Gcommit --amend<CR>
 nnoremap <leader>gt :Gcommit -v -q %<CR>
 nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>ge :Gedit<CR>
 nnoremap <leader>gr :Gread<CR>
-nnoremap <leader>gw :Gwrite<CR><CR>
+nnoremap <leader>ga :Gwrite<CR><CR>
 nnoremap <leader>gl :silent! Glog<CR>
 nnoremap <leader>gp :Ggrep<Space>
 nnoremap <leader>gm :Gmove<Space>
@@ -140,7 +144,7 @@ nnoremap <Leader>gp :cprev<CR>
 function! GlobalFind()
   let word = inputdialog('Search: ', expand('<cword>'), '')
   if word != ''
-    exec ':Ack ' . word 
+    exec ':Ack ' . word
   endif
 endfunction
 map <leader>f :call GlobalFind()<CR>
@@ -159,7 +163,7 @@ map <leader>r :call SearchAndReplace()<CR>
 " Run tests in a shell - two alternatives being used
 function MyConqueTermSplit(command)
   if exists("g:conque_window")
-    execute 'bunload ' . g:conque_window.buffer_name 
+    execute 'bunload ' . g:conque_window.buffer_name
   end
   let g:conque_window = conque_term#open(a:command, ['below split', 'resize 10'], 0)
 endfunction
