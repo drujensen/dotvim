@@ -122,6 +122,7 @@ let g:nerdtree_tabs_focus_on_files=1
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Git settings
+nnoremap <leader>g  :Git<Space>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gc :Gcommit -v -q<CR>
 nnoremap <leader>gt :Gcommit -v -q %<CR>
