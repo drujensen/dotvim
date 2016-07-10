@@ -43,7 +43,10 @@ set pastetoggle=π
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
 
-"F5 will remove all trailing spaces
+" AutoFormat Settings
+noremap <F3> :Autoformat<CR>
+
+" F5 will remove all trailing spaces
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " Shift+Direction selects text
@@ -106,8 +109,8 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 " let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_ruby_checkers = ['mri', 'reek']
-" let g:syntastic_ruby_checkers = ['mri']
+" let g:syntastic_ruby_checkers = ['mri', 'reek']
+let g:syntastic_ruby_checkers = ['mri']
 
 " Ignore warnings of Global CursorHoldI
 let g:ConqueTerm_StartMessages = 0
