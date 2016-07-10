@@ -67,3 +67,6 @@
 [submodule "bundle/vim-jsx"]
 	path = bundle/vim-jsx
 	url = git@github.com:mxw/vim-jsx.git
+[submodule "bundle/vim-syntastic"]
+	path = bundle/vim-syntastic
+	url = git@github.com:scrooloose/syntastic.git
