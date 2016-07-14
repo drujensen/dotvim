@@ -108,9 +108,8 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-" let g:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_ruby_checkers = ['mri', 'reek']
-let g:syntastic_ruby_checkers = ['mri']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 
 " Ignore warnings of Global CursorHoldI
 let g:ConqueTerm_StartMessages = 0
@@ -156,7 +155,7 @@ nnoremap <Leader>gp :cprev<CR>
 function! GlobalFind()
   let word = inputdialog('Search: ', expand('<cword>'), '')
   if word != ''
-    exec ':Ack ' . word
+    exec ':Ack --ignore-dir=log ' . word
   endif
 endfunction
 map <leader>f :call GlobalFind()<CR>
