@@ -87,6 +87,10 @@ map <C-b> :buffers<CR>:buffer<Space>
 map <C-x> :pop<CR>
 map <C-t> :TagbarToggle<CR>
 
+" always do a global tag jump
+nnoremap <c-]> g<c-]>
+vnoremap <c-]> g<c-]>
+
 map <C-n> :NERDTreeMirrorToggle<CR>
 map <C-f> :NERDTreeFind<CR>
 
