@@ -49,6 +49,9 @@ noremap <F3> :Autoformat<CR>
 " F5 will remove all trailing spaces
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
+" F6 will toggle syntastic
+silent! nnoremap <F6> :SyntasticToggleMode<CR>
+
 " Shift+Direction selects text
 if has("gui_macvim")
   let macvim_hig_shift_movement = 1
