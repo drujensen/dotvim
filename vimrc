@@ -43,7 +43,7 @@ set pastetoggle=π
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
 
-" AutoFormat Settings
+" F3 will AutoFormat Settings
 noremap <F3> :Autoformat<CR>
 
 " F5 will remove all trailing spaces
@@ -61,19 +61,6 @@ endif
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 
-" nmap <S-Up> V
-" nmap <S-Down> V
-" nmap <S-Left> v<Left>
-" nmap <S-Right> v<Right>
-" vmap <S-Up> <Up>
-" vmap <S-Down> <Down>
-" vmap <S-Left> <Left>
-" vmap <S-Right> <Right>
-" imap <S-Up> <Esc>V
-" imap <S-Down> <Esc>V
-" imap <S-Left> <Esc>lv<Left>
-" imap <S-Right> <Esc>lv<Right>
-
 " Tab between splits
 nmap <Tab> <c-w><c-w>
 nmap <s-Tab> <c-w><s-w>
@@ -84,8 +71,7 @@ nmap <c-S-Tab> :tabprev<Cr>
 
 
 map <C-b> :buffers<CR>:buffer<Space>
-map <C-x> :pop<CR>
-map <C-t> :TagbarToggle<CR>
+map <C-v> :TagbarToggle<CR>
 
 " always do a global tag jump
 nnoremap <c-]> g<c-]>
