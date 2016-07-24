@@ -158,6 +158,23 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gn :cnext<CR>
 nnoremap <Leader>gp :cprev<CR>
 
+" Run a given vim command on the results of alt from a given path.
+" See usage below.
+" requires alt.  
+" brew tap "codebreakdown/homebrew-oss"
+" brew install codebreakdown/oss/alt
+function! AltCommand(path, vim_command)
+  let l:alternate = system("alt " . a:path)
+  if empty(l:alternate)
+    echo "No alternate file for " . a:path . " exists!"
+  else
+    exec a:vim_command . " " . l:alternate
+  endif
+endfunction
+
+" Find the alternate file for the current path and open it
+nnoremap <leader>. :w<cr>:call AltCommand(expand('%'), ':e')<cr>
+
 " Custom Global Find
 function! GlobalFind()
   let word = inputdialog('Search: ', expand('<cword>'), '')
