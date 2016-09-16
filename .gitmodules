@@ -67,3 +67,6 @@
 [submodule "bundle/vim-autoformat"]
 	path = bundle/vim-autoformat
 	url = git@github.com:Chiel92/vim-autoformat.git
+[submodule "bundle/vim-markdown-preview"]
+	path = bundle/vim-markdown-preview
+	url = git@github.com:JamshedVesuna/vim-markdown-preview.git
