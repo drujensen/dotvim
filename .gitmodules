@@ -16,9 +16,6 @@
 [submodule "bundle/vim-fugitive"]
 	path = bundle/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule "bundle/vim-instant-markdown"]
-	path = bundle/vim-instant-markdown
-	url = git://github.com/suan/vim-instant-markdown.git
 [submodule "bundle/vim-nerdcommenter"]
 	path = bundle/vim-nerdcommenter
 	url = git://github.com/ddollar/nerdcommenter.git
@@ -70,3 +67,6 @@
 [submodule "bundle/vim-autoformat"]
 	path = bundle/vim-autoformat
 	url = git@github.com:Chiel92/vim-autoformat.git
+[submodule "bundle/vim-markdown-preview"]
+	path = bundle/vim-markdown-preview
+	url = git@github.com:JamshedVesuna/vim-markdown-preview.git

@@ -29,9 +29,20 @@ set exrc
 set secure
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
-" NerdCommentor
-filetype plugin indent on
+" autocomplete
 set omnifunc=syntaxcomplete#Complete
+set completeopt=longest,menuone
+:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+" vim-ruby / vim-rails
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1 
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 
 " treat all .md files as markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
