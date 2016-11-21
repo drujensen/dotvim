@@ -150,7 +150,7 @@ nnoremap <leader>ge :Gedit<CR>
 nnoremap <leader>gr :Gread<CR>
 nnoremap <leader>ga :Gwrite<CR>
 nnoremap <leader>gl :Glog<Space>
-nnoremap <leader>gg :call MyConqueTermSplit("git lg")<CR>
+nnoremap <leader>gg :Gitv<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gn :cnext<CR>
 nnoremap <Leader>gp :cprev<CR>
