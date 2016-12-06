@@ -19,7 +19,7 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set clipboard=unnamed
-set textwidth=78
+set textwidth=0 wrapmargin=0
 set history=10000
 set t_Co=256
 set gfn=Monaco:h14 " Set the font
