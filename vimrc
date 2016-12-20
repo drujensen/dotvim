@@ -28,6 +28,8 @@ set mouse=ar mousemodel=extend
 set exrc
 set secure
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+set splitright
+set splitbelow
 
 " autocomplete
 set omnifunc=syntaxcomplete#Complete
