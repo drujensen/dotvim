@@ -129,6 +129,18 @@ let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 " Ignore warnings of Global CursorHoldI
 let g:ConqueTerm_StartMessages = 0
 
+" The Silver Searcher - brew install the_silver_searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
 let mapleader = "," " Set my leader key to be a comma
 
 " Alternate between test files and paired code files
@@ -187,7 +199,7 @@ nnoremap <leader>. :w<cr>:call AltCommand(expand('%'), ':e')<cr>
 function! GlobalFind()
   let word = inputdialog('Search: ', expand('<cword>'), '')
   if word != ''
-    exec ':Ack --ignore-dir=log --ignore-dir=generated ' . word
+    exec ':Ag --ignore-dir=log --ignore-dir=generated ' . word
   endif
 endfunction
 map <leader>f :call GlobalFind()<CR>
