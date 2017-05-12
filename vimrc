@@ -130,16 +130,15 @@ let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:ConqueTerm_StartMessages = 0
 
 " The Silver Searcher - brew install the_silver_searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
+" Use ag over grep
+set grepprg=ag\ --nogroup\ --nocolor
 
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
-  " " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
+" ag is fast enough that CtrlP doesn't need to cache
+let g:ctrlp_use_caching = 0
+let g:ag_working_path_mode="r"
 
 let mapleader = "," " Set my leader key to be a comma
 
