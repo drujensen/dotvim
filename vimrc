@@ -50,9 +50,6 @@ autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 " treat all .md files as markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
-" reformat crystal files when closing
-autocmd BufWritePre *.cr :CrystalFormat
-
 " Toggle paste mode with Alt-p
 nnoremap π :set invpaste paste?<CR>
 set pastetoggle=π
@@ -107,6 +104,9 @@ let g:multi_cursor_next_key='<C-o>'
 let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
+
+" Autoformat crystal files on save
+let g:crystal_auto_format=1
 
 " Syntastic Settings
 set statusline+=%#warningmsg#
