@@ -50,6 +50,9 @@ autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 " treat all .md files as markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+" reformat crystal files when closing
+autocmd BufWritePre *.cr :CrystalFormat
+
 " Toggle paste mode with Alt-p
 nnoremap π :set invpaste paste?<CR>
 set pastetoggle=π
