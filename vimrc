@@ -94,7 +94,7 @@ vnoremap <c-]> g<c-]>
 map <C-n> :NERDTreeMirrorToggle<CR>
 map <C-f> :NERDTreeFind<CR>
 
-map <C-\> :ConqueTermSplit
+map <C-\> :TerminalSplit
 
 map <C-_> <plug>NERDCommenterToggle<CR>
 
@@ -219,29 +219,20 @@ endfunction
 map <leader>r :call SearchAndReplace()<CR>
 
 " Run tests in a shell - two alternatives being used
-function MyConqueTermSplit(command)
-  if exists("g:conque_window")
-    execute 'bunload ' . g:conque_window.buffer_name
+function TerminalSplit(command)
+  if exists("g:terminal_window")
+    execute 'bunload ' . g:terminal_window.buffer_name
   end
-  let g:conque_window = conque_term#open(a:command, ['below split', 'resize 10'], 0)
+  let g:terminal_window = vimterm_term#open(a:command, ['below split', 'resize 10'], 0)
 endfunction
 
 " Run tests in ConqueTermSplit
-let g:vim_test_recall_cucumber_command = 'call MyConqueTermSplit("cucumber {feature}")'
-let g:vim_test_recall_rspec_command = 'call MyConqueTermSplit("rspec {spec}")'
-let g:vim_test_recall_crystal_command = 'call MyConqueTermSplit("crystal spec {spec}")'
-let g:vim_test_recall_javascript_command = 'call MyConqueTermSplit("npm test --cf {spec}")'
-
-function MyScreenShellSplit(command)
- :ScreenShell
- call g:ScreenShellSend(a:command)
-endfunction
-
-" Run tests in Screen Shell
-"let g:vim_test_recall_cucumber_command = 'call MyScreenShellSplit("be cucumber {feature}")'
-"let g:vim_test_recall_rspec_command = 'call MyScreenShellSplit("be rspec {spec}")'
-"let g:vim_test_recall_crystal_command = 'call MyScreenShellSplit("crystal spec {spec}")'
+let g:vim_test_recall_cucumber_command = 'call TerminalSplit("cucumber {feature}")'
+let g:vim_test_recall_rspec_command = 'call TerminalSplit("rspec {spec}")'
+let g:vim_test_recall_crystal_command = 'call TerminalSplit("crystal spec {spec}")'
+let g:vim_test_recall_javascript_command = 'call TerminalSplit("npm test --cf {spec}")'
 
 let g:ScreenShellTmuxInitArgs = 'new-session -c "$PWD"'
 
 
+call pathogen#helptags()
