@@ -1,9 +1,11 @@
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
+
 set background=dark
-colorscheme solarized
-let g:solarized_hitrail=1
+" colorscheme solarized
+" let g:solarized_hitrail=1
+set gfn=Monaco:h14
 
 set vb
 set nocp
@@ -23,7 +25,6 @@ set clipboard=unnamed
 set textwidth=0 wrapmargin=0
 set history=10000
 set t_Co=256
-set gfn=Monaco:h14 " Set the font
 set laststatus=2 " In order for airline to show with NerdTree, need to set the laststatus=2
 set mouse=ar mousemodel=extend
 set exrc
