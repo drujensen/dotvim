@@ -20,7 +20,6 @@ apt-vim install -y \
   git://github.com/jistr/vim-nerdtree-tabs.git \
   git://github.com/tpope/vim-rails.git \
   git://github.com/vim-ruby/vim-ruby.git \
-  git://github.com/drujensen/screen.git \
   git://github.com/isaacsloan/vim-slang.git \
   git://github.com/scrooloose/syntastic.git \
   git://github.com/majutsushi/tagbar.git \

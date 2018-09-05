@@ -3,8 +3,8 @@ syntax on
 filetype plugin indent on
 
 set background=dark
-" colorscheme solarized
-" let g:solarized_hitrail=1
+colorscheme solarized
+let g:solarized_hitrail=1
 set gfn=Monaco:h14
 
 set vb
@@ -95,7 +95,7 @@ vnoremap <c-]> g<c-]>
 map <C-n> :NERDTreeMirrorToggle<CR>
 map <C-f> :NERDTreeFind<CR>
 
-map <C-\> :TerminalSplit
+map <C-\> :term<Space>bash<CR>
 
 map <C-_> <plug>NERDCommenterToggle<CR>
 
@@ -130,9 +130,6 @@ highlight link SyntasticStyleErrorSign SignColumn
 highlight link SyntasticStyleWarningSign SignColumn
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-
-" Ignore warnings of Global CursorHoldI
-let g:ConqueTerm_StartMessages = 0
 
 " The Silver Searcher - brew install the_silver_searcher
 " Use ag over grep
@@ -219,12 +216,12 @@ function! SearchAndReplace()
 endfunction
 map <leader>r :call SearchAndReplace()<CR>
 
-" Run tests in a shell - two alternatives being used
+" Run tests in a shell
 function TerminalSplit(command)
   if exists("g:terminal_window")
     execute 'bunload ' . g:terminal_window.buffer_name
   end
-  let g:terminal_window = vimterm_term#open(a:command, ['below split', 'resize 10'], 0)
+  let g:terminal_window = execute('term ' . a:command)
 endfunction
 
 " Run tests in ConqueTermSplit
