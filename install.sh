@@ -24,5 +24,4 @@ apt-vim install -y \
   git://github.com/scrooloose/syntastic.git \
   git://github.com/majutsushi/tagbar.git \
   git://github.com/drujensen/vim-test-recall.git \
-  git://github.com/jgdavey/tslime.vim.git \
-  git://github.com/tc50cal/vim-terminal.git
+  git://github.com/jgdavey/tslime.vim.git
