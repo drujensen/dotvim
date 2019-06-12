@@ -154,7 +154,7 @@ map <leader>a :call RunAllRSpecTests()<cr>
 map <leader>c :call RunAllCucumberFeatures()<cr>
 
 " Base64 Decode Selection
-vnoremap <leader>64 y:echo system('base64 --decode', @")<cr>
+noremap <leader>64 y:echo system('base64 --decode', @%)<cr>
 
 " Screen settings
 let g:ScreenImpl = 'Tmux'
@@ -216,19 +216,11 @@ function! SearchAndReplace()
 endfunction
 map <leader>r :call SearchAndReplace()<CR>
 
-" Run tests in a shell
-function TerminalSplit(command)
-  if exists("g:terminal_window")
-    execute 'bunload ' . g:terminal_window.buffer_name
-  end
-  let g:terminal_window = execute('term ' . a:command)
-endfunction
-
 " Run tests in ConqueTermSplit
-let g:vim_test_recall_cucumber_command = 'call TerminalSplit("cucumber {feature}")'
-let g:vim_test_recall_rspec_command = 'call TerminalSplit("rspec {spec}")'
-let g:vim_test_recall_crystal_command = 'call TerminalSplit("crystal spec {spec}")'
-let g:vim_test_recall_javascript_command = 'call TerminalSplit("npm test --cf {spec}")'
+let g:vim_test_recall_cucumber_command = 'execute("term cucumber {feature}")'
+let g:vim_test_recall_rspec_command = 'execute("term rspec {spec}")'
+let g:vim_test_recall_crystal_command = 'execute("term crystal spec {spec}")'
+let g:vim_test_recall_javascript_command = 'execute("term npm test --cf {spec}")'
 
 let g:ScreenShellTmuxInitArgs = 'new-session -c "$PWD"'
 
