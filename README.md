@@ -1,6 +1,15 @@
 # dotvim
-`git clone git@github.com:drujensen/dotvim.git ~/.vim`
+```
+sudo apt install git vim curl -y
 
-`ln -sf ~/.vim/vimrc ~/.vimrc`
+git clone git@github.com:drujensen/dotvim.git ~/.vim
 
-`cd ~/.vim && ./install.sh`
+curl -sL https://raw.githubusercontent.com/egalpin/apt-vim/master/install.sh | sh
+
+source ~/.bashrc
+
+git clone git@github.com:drujensen/dotvim.git ~/.vim
+
+ln -sf ~/.vim/vimrc ~/.vimrc
+
+cd ~/.vim && ./install.sh
