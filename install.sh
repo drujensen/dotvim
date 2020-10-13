@@ -23,4 +23,32 @@ apt-vim install -y \
   git://github.com/scrooloose/syntastic.git \
   git://github.com/majutsushi/tagbar.git \
   git://github.com/drujensen/vim-test-recall.git \
-  git://github.com/jgdavey/tslime.vim.git 
+  git://github.com/jgdavey/tslime.vim.git
+
+# Use package feature to install coc.nvim
+# for vim8
+mkdir -p ~/.vim/pack/coc/start
+cd ~/.vim/pack/coc/start
+curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -
+
+# Install extensions
+mkdir -p ~/.config/coc/extensions
+cd ~/.config/coc/extensions
+if [ ! -f package.json ]
+then
+  echo '{"dependencies":{}}'> package.json
+fi
+# Change extension names to the extensions you need
+# https://github.com/neoclide
+gem install solargraph
+npm install coc-marketplace
+npm install coc-solargraph #ruby
+npm install coc-java
+npm install coc-python
+npm install coc-eslint
+npm install coc-css
+npm install coc-yaml
+npm install coc-json
+npm install coc-jest
+npm install coc-go
+
