@@ -224,5 +224,9 @@ let g:vim_test_recall_javascript_command = 'execute("term npm test --cf {spec}")
 
 let g:ScreenShellTmuxInitArgs = 'new-session -c "$PWD"'
 
-
 call pathogen#helptags()
+
+" COC's auto complete
+call plug#begin()
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+call plug#end()

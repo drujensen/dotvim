@@ -1,5 +1,4 @@
 # curl -sL https://raw.githubusercontent.com/egalpin/apt-vim/master/install.sh | sh
-
 apt-vim install -y \
   git://github.com/rking/ag.vim.git \
   git://github.com/bling/vim-airline.git \
@@ -24,4 +23,4 @@ apt-vim install -y \
   git://github.com/scrooloose/syntastic.git \
   git://github.com/majutsushi/tagbar.git \
   git://github.com/drujensen/vim-test-recall.git \
-  git://github.com/jgdavey/tslime.vim.git
+  git://github.com/jgdavey/tslime.vim.git 
