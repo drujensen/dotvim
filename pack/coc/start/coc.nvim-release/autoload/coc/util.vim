@@ -51,20 +51,11 @@ function! coc#util#has_float()
   return 0
 endfunction
 
-function! coc#util#get_float()
-  for i in range(1, winnr('$'))
-    if getwinvar(i, 'float')
-      return win_getid(i)
-    endif
-  endfor
-  return 0
-endfunction
-
 function! coc#util#float_hide()
   for i in range(1, winnr('$'))
     if getwinvar(i, 'float')
       let winid = win_getid(i)
-      call coc#util#close_win(winid)
+      call coc#float#close(winid)
     endif
   endfor
 endfunction
@@ -76,20 +67,6 @@ function! coc#util#float_jump()
       return
     endif
   endfor
-endfunction
-
-function! coc#util#float_scrollable()
-  let winnr = winnr()
-  for i in range(1, winnr('$'))
-    if getwinvar(i, 'float')
-      let wid = win_getid(i)
-      let h = nvim_win_get_height(wid)
-      let buf = nvim_win_get_buf(wid)
-      let lineCount = nvim_buf_line_count(buf)
-      return lineCount > h
-    endif
-  endfor
-  return 0
 endfunction
 
 function! coc#util#float_scroll(forward)
@@ -105,7 +82,7 @@ endfunction
 
 " scroll float without exiting insert mode (nvim only)
 function! coc#util#float_scroll_i(amount)
-  let float = coc#util#get_float()
+  let float = coc#float#get_float_win()
   if !float | return '' | endif
   let buf = nvim_win_get_buf(float)
   let buf_height = nvim_buf_line_count(buf)
@@ -169,9 +146,17 @@ function! coc#util#close_floats() abort
 endfunction
 
 function! coc#util#close_win(id)
+  if a:id == 0 || type(a:id) != 0
+    return
+  endif
   if s:is_vim && exists('*popup_close')
     if !empty(popup_getpos(a:id))
       call popup_close(a:id)
+    else
+      let nr = win_id2win(a:id)
+      if nr
+        execute nr.'close!'
+      endif
     endif
   endif
   if exists('*nvim_win_close')
@@ -184,129 +169,6 @@ function! coc#util#close_win(id)
       execute winnr.'close!'
     endif
   endif
-endfunction
-
-function! coc#util#close(id) abort
-  if exists('*nvim_win_close')
-    if nvim_win_is_valid(a:id)
-      call nvim_win_close(a:id, 1)
-    endif
-  else
-    let winnr = win_id2win(a:id)
-    if winnr > 0
-      execute winnr.'close!'
-    endif
-  endif
-endfunction
-
-function! coc#util#get_float_mode(allow_selection, align_top, pum_align_top) abort
-  let mode = mode()
-  if pumvisible() && a:align_top == a:pum_align_top
-    return v:null
-  endif
-  let checked = (mode == 's' && a:allow_selection) || index(['i', 'n', 'ic'], mode) != -1
-  if !checked
-    return v:null
-  endif
-  if !s:is_vim && mode ==# 'i'
-    " helps to fix undo issue, don't know why.
-    call feedkeys("\<C-g>u", 'n')
-  endif
-  let pos = coc#util#win_position()
-  return [mode, bufnr('%'), pos, [line('.'), col('.')]]
-endfunction
-
-" create buffer for popup/float window
-function! coc#util#create_float_buf(bufnr) abort
-  " reuse buffer cause error on vim8
-  if a:bufnr && bufloaded(a:bufnr)
-    return a:bufnr
-  endif
-  if s:is_vim
-    noa let bufnr = bufadd('')
-    noa call bufload(bufnr)
-  else
-    noa let bufnr = nvim_create_buf(v:false, v:true)
-  endif
-  " Don't use popup filetype, it would crash on reuse!
-  call setbufvar(bufnr, '&buftype', 'nofile')
-  call setbufvar(bufnr, '&bufhidden', 'hide')
-  call setbufvar(bufnr, '&swapfile', 0)
-  call setbufvar(bufnr, '&tabstop', 2)
-  call setbufvar(bufnr, '&undolevels', -1)
-  return bufnr
-endfunction
-
-" create/reuse float window for config position.
-function! coc#util#create_float_win(winid, bufnr, config) abort
-  " use exists
-  if a:winid
-    if s:is_vim && !empty(popup_getoptions(a:winid))
-      let [line, col] = s:popup_position(a:config)
-      call popup_move(a:winid, {
-        \ 'line': line,
-        \ 'col': col,
-        \ 'minwidth': a:config['width'] - 2,
-        \ 'minheight': a:config['height'],
-        \ 'maxwidth': a:config['width'] - 2,
-        \ 'maxheight': a:config['height'],
-        \ })
-      return [a:winid, winbufnr(a:winid)]
-    endif
-    if !s:is_vim && nvim_win_is_valid(a:winid)
-      call nvim_win_set_config(a:winid, a:config)
-      return [a:winid, winbufnr(a:winid)]
-    endif
-  endif
-  let winid = 0
-  if s:is_vim
-    let [line, col] = s:popup_position(a:config)
-    let bufnr = coc#util#create_float_buf(a:bufnr)
-    let winid = popup_create(bufnr, {
-        \ 'padding': [0, 1, 0, 1],
-        \ 'highlight': 'CocFloating',
-        \ 'fixed': 1,
-        \ 'cursorline': get(a:config, 'cursorline', 0),
-        \ 'line': line,
-        \ 'col': col,
-        \ 'minwidth': a:config['width'] - 2,
-        \ 'minheight': a:config['height'],
-        \ 'maxwidth': a:config['width'] - 2,
-        \ 'maxheight': a:config['height'],
-        \ })
-    if has("patch-8.1.2281")
-      call setwinvar(winid, 'showbreak', 'NONE')
-    endif
-  else
-    let bufnr = coc#util#create_float_buf(a:bufnr)
-    let winid = nvim_open_win(bufnr, 0, a:config)
-    call setwinvar(winid, '&foldcolumn', 1)
-    call setwinvar(winid, '&winhl', 'Normal:CocFloating,NormalNC:CocFloating,FoldColumn:CocFloating,CursorLine:CocMenuSel')
-    call setwinvar(winid, '&signcolumn', 'no')
-  endif
-  if winid <= 0
-    return null
-  endif
-  call setwinvar(winid, '&list', 0)
-  call setwinvar(winid, '&number', 0)
-  call setwinvar(winid, '&relativenumber', 0)
-  call setwinvar(winid, '&cursorcolumn', 0)
-  call setwinvar(winid, '&cursorline', 0)
-  call setwinvar(winid, '&colorcolumn', 0)
-  call setwinvar(winid, 'float', 1)
-  call setwinvar(winid, '&wrap', 1)
-  call setwinvar(winid, '&linebreak', 1)
-  call setwinvar(winid, '&conceallevel', 2)
-  let g:coc_last_float_win = winid
-  call coc#util#do_autocmd('CocOpenFloat')
-  return [winid, winbufnr(winid)]
-endfunction
-
-function! coc#util#valid_float_win(winid) abort
-  if s:is_vim
-    return !empty(popup_getoptions(a:winid))
-  endif
-  return nvim_win_is_valid(a:winid)
 endfunction
 
 function! coc#util#path_replace_patterns() abort
@@ -320,12 +182,6 @@ function! coc#util#path_replace_patterns() abort
     return g:coc_uri_prefix_replace_patterns
   endif
   return v:null
-endfunction
-
-function! coc#util#win_position()
-  let nr = winnr()
-  let [row, col] = win_screenpos(nr)
-  return [row + winline() - 2, col + wincol() - 2]
 endfunction
 
 function! coc#util#version()
@@ -353,16 +209,6 @@ endfunction
 function! coc#util#open_file(cmd, file)
   let file = fnameescape(a:file)
   execute a:cmd .' '.file
-endfunction
-
-function! coc#util#platform()
-  if s:is_win
-    return 'windows'
-  endif
-  if has('mac') || has('macvim')
-    return 'mac'
-  endif
-  return 'linux'
 endfunction
 
 function! coc#util#remote_fns(name)
@@ -481,12 +327,6 @@ function! s:Call(method, args)
   catch /.*/
     return 0
   endtry
-endfunction
-
-function! coc#util#is_preview(bufnr)
-  let wnr = bufwinnr(a:bufnr)
-  if wnr == -1 | return 0 | endif
-  return getwinvar(wnr, '&previewwindow')
 endfunction
 
 function! coc#util#get_bufoptions(bufnr) abort
@@ -862,7 +702,6 @@ function! coc#util#getpid()
   if !has('win32unix')
     return getpid()
   endif
-
   let cmd = 'cat /proc/' . getpid() . '/winpid'
   return substitute(system(cmd), '\v\n', '', 'gi')
 endfunction
@@ -1148,15 +987,6 @@ function! s:system(cmd)
   return output
 endfunction
 
-function! coc#util#pclose()
-  for i in range(1, winnr('$'))
-    if getwinvar(i, '&previewwindow')
-      pclose
-      redraw
-    endif
-  endfor
-endfunction
-
 function! coc#util#set_buf_var(bufnr, name, val) abort
   if !bufloaded(a:bufnr) | return | endif
   call setbufvar(a:bufnr, a:name, a:val)
@@ -1237,25 +1067,6 @@ function! coc#util#refactor_fold_text(lnum) abort
     let range = info[0].':'.info[1]
   endif
   return trim(getline(a:lnum)[3:]).' '.range
-endfunction
-
-" get popup position for vim8 based on config of neovim float window
-function! s:popup_position(config) abort
-  let relative = get(a:config, 'relative', 'editor')
-  if relative ==# 'cursor'
-    return [s:popup_cursor(a:config['row']), s:popup_cursor(a:config['col'])]
-  endif
-  return [a:config['row'] + 1, a:config['col'] + 1]
-endfunction
-
-function! s:popup_cursor(n) abort
-  if a:n == 0
-    return 'cursor'
-  endif
-  if a:n < 0
-    return 'cursor'.a:n
-  endif
-  return 'cursor+'.a:n
 endfunction
 
 function! coc#util#set_buf_lines(bufnr, lines) abort
@@ -1341,41 +1152,7 @@ function! coc#util#clear_highlights(...) abort
     endif
 endfunction
 
-" Create float window for input, works on nvim >= 0.5.0
-function! coc#util#create_prompt_win(title, default) abort
-  let bufnr = nvim_create_buf(v:false, v:true)
-  call setbufvar(bufnr, '&buftype', 'prompt')
-  call setbufvar(bufnr, '&bufhidden', 'unload')
-  call setbufvar(bufnr, '&undolevels', -1)
-  call setbufvar(bufnr, 'coc_suggest_disable', 1)
-  " Calculate col
-  let curr = win_screenpos(winnr())[1] + wincol() - 2
-  let col = curr + 30 < &columns ? 0 : &columns - curr - 31
-  if col == 0 && curr >= len(a:title) + 2
-    let col = 0 - len(a:title) -2
-  endif
-  let winid = nvim_open_win(bufnr, 0, {
-    \ 'relative': 'cursor',
-    \ 'width': 30,
-    \ 'height': 1,
-    \ 'row': 0,
-    \ 'col': col,
-    \ 'style': 'minimal',
-    \ })
-  if !winid
-    return 0
-  endif
-  call setwinvar(winid, '&winhl', 'Normal:CocFloating,NormalNC:CocFloating')
-  call win_gotoid(winid)
-  call matchaddpos("MoreMsg", [[1, 1, len(a:title) + 2]])
-  call prompt_setprompt(bufnr,' '.a:title.': ')
-  call prompt_setcallback(bufnr, {text -> coc#rpc#notify('PromptInsert', [text, bufnr])})
-  call prompt_setinterrupt(bufnr, { -> execute('bd! '.bufnr, 'silent!')})
-  startinsert
-  call feedkeys(a:default, 'in')
-  return bufnr
-endfunction
-
+" Make sure window exists
 function! coc#util#win_gotoid(winid) abort
   noa let res = win_gotoid(a:winid)
   if res == 0
@@ -1383,6 +1160,7 @@ function! coc#util#win_gotoid(winid) abort
   endif
 endfunction
 
+" Make sure pum is visible
 function! coc#util#pumvisible() abort
   let visible = pumvisible()
   if !visible
