@@ -28,7 +28,8 @@ apt-vim install -y \
   git://github.com/tpope/vim-projectionist.git \
   git://github.com/tpope/vim-dispatch.git \
   git@github.com:tpope/vim-classpath.git \
-  git://github.com/tpope/vim-fireplace.git
+  git://github.com/tpope/vim-fireplace.git \
+  git@github.com:kien/rainbow_parentheses.vim.git
 
 # Use package feature to install coc.nvim
 # for vim8
