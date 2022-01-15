@@ -77,32 +77,16 @@ if has("gui_macvim")
   let macvim_hig_shift_movement = 1
 endif
 
-" Tab/Shift Tab in Visual mode
+" Tab/Shift Tab in Visual mode to indent text
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 
 " Tab between splits
 nmap <Tab> <c-w><c-w>
 nmap <s-Tab> <c-w><s-w>
-" imap <c-Tab> <Esc>:tabnext<Cr>
-" imap <c-S-Tab> <Esc>:tabprev<Cr>
-" nmap <c-Tab> :tabnext<Cr>
-" nmap <c-S-Tab> :tabprev<Cr>
-
 
 map <C-b> :buffers<CR>:buffer<Space>
 map <C-v> :TagbarToggle<CR>
-
-" always do a global tag jump
-" nnoremap <c-]> g<c-]>
-" vnoremap <c-]> g<c-]>
-
-map <C-n> :NERDTreeMirrorToggle<CR>
-map <C-f> :NERDTreeFind<CR>
-
-map <C-\> :term<Space>bash<CR>
-
-map <C-_> <plug>NERDCommenterToggle<CR>
 
 " Mappings for multi-cursor
 let g:multi_cursor_use_default_mapping=0
@@ -110,6 +94,11 @@ let g:multi_cursor_next_key='<C-o>'
 let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
+
+map <C-n> :NERDTreeMirrorToggle<CR>
+map <C-f> :NERDTreeFind<CR>
+map <C-_> <plug>NERDCommenterToggle<CR>
+map <C-\> :term<Space>bash<CR>
 
 " Autoformat crystal files on save
 let g:crystal_auto_format=1
@@ -152,9 +141,6 @@ let g:ag_working_path_mode="r"
 
 let mapleader = "," " Set my leader key to be a comma
 
-" Alternate between test files and paired code files
-" nnoremap <leader>. :OpenAlternate<cr>
-
 " Map all the run test calls provided by vim-test-recall
 map <leader>t :call RunAllTestsInCurrentTestFile()<cr>
 map <leader>s :call RunNearestTest()<cr>
@@ -175,15 +161,15 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 " Git settings
 nnoremap <leader>g  :Git<Space>
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gc :Gcommit -v -q<CR>
-nnoremap <leader>gd :Gdiff<CR>
-nnoremap <leader>ge :Gedit<CR>
-nnoremap <leader>gr :Gread<CR>
-nnoremap <leader>ga :Gwrite<CR>
-nnoremap <leader>gl :Glog<Space>
-nnoremap <leader>gg :Gitv<CR>
-nnoremap <Leader>gb :Gblame<CR>
+nnoremap <leader>ga :Git add %<CR>
+nnoremap <leader>gr :Git restore --staged %<CR>
+nnoremap <leader>gc :Git commit -v -q<CR>
+nnoremap <leader>gd :Git diff<CR>
+nnoremap <leader>gp :Git pull<CR>
+nnoremap <Leader>gb :Git blame<CR>
+nnoremap <leader>gs :Git status<CR>
+nnoremap <leader>gl :Git log<CR>
+nnoremap <leader>gv :Git lg<CR>
 nnoremap <Leader>gn :cnext<CR>
 nnoremap <Leader>gp :cprev<CR>
 
@@ -212,8 +198,6 @@ let g:vim_test_recall_cucumber_command = 'execute("term cucumber {feature}")'
 let g:vim_test_recall_rspec_command = 'execute("term rspec {spec}")'
 let g:vim_test_recall_crystal_command = 'execute("term crystal spec {spec}")'
 let g:vim_test_recall_javascript_command = 'execute("term npm test --cf {spec}")'
-
-let g:ScreenShellTmuxInitArgs = 'new-session -c "$PWD"'
 
 call pathogen#helptags()
 

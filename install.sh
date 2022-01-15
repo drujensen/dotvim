@@ -9,12 +9,12 @@ apt-vim install -y \
   git://github.com/tpope/vim-cucumber.git \
   git://github.com/tpope/vim-fugitive.git \
   git://github.com/airblade/vim-gitgutter.git \
-  git://github.com/gregsexton/gitv.git \
   git://github.com/pangloss/vim-javascript.git \
   git://github.com/mxw/vim-jsx.git \
   git://github.com/ddollar/nerdcommenter.git \
   git://github.com/scrooloose/nerdtree.git \
   git://github.com/jistr/vim-nerdtree-tabs.git \
+  git://github.com/terryma/vim-multiple-cursors.git \
   git://github.com/tpope/vim-rails.git \
   git://github.com/vim-ruby/vim-ruby.git \
   git://github.com/rust-lang/rust.vim.git \
@@ -29,4 +29,3 @@ apt-vim install -y \
   git@github.com:tpope/vim-classpath.git \
   git://github.com/tpope/vim-fireplace.git \
   git@github.com:kien/rainbow_parentheses.vim.git
-
