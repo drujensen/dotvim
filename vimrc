@@ -114,6 +114,9 @@ let g:multi_cursor_quit_key='<Esc>'
 " Autoformat crystal files on save
 let g:crystal_auto_format=1
 
+" AutoFormat rust files on save
+let g:rustfmt_autosave = 1
+
 " Syntastic Settings
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
