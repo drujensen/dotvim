@@ -22,10 +22,4 @@ apt-vim install -y \
   git://github.com/scrooloose/syntastic.git \
   git://github.com/majutsushi/tagbar.git \
   git://github.com/drujensen/vim-test-recall.git \
-  git://github.com/jgdavey/tslime.vim.git \
-  git://github.com/tpope/vim-salve.git \
-  git://github.com/tpope/vim-projectionist.git \
-  git://github.com/tpope/vim-dispatch.git \
-  git@github.com:tpope/vim-classpath.git \
-  git://github.com/tpope/vim-fireplace.git \
   git@github.com:kien/rainbow_parentheses.vim.git
