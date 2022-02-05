@@ -14,10 +14,10 @@ apt-vim install -y \
   git://github.com/ddollar/nerdcommenter.git \
   git://github.com/scrooloose/nerdtree.git \
   git://github.com/jistr/vim-nerdtree-tabs.git \
-  git://github.com/terryma/vim-multiple-cursors.git \
   git://github.com/tpope/vim-rails.git \
   git://github.com/vim-ruby/vim-ruby.git \
   git://github.com/rust-lang/rust.vim.git \
+  git://github.com/keith/swift.vim.git \
   git://github.com/isaacsloan/vim-slang.git \
   git://github.com/scrooloose/syntastic.git \
   git://github.com/majutsushi/tagbar.git \
