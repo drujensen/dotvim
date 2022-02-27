@@ -73,9 +73,9 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 silent! nnoremap <F6> :SyntasticToggleMode<CR>
 
 " Shift+Direction selects text
-if has("gui_macvim")
-  let macvim_hig_shift_movement = 1
-endif
+"if has("gui_macvim")
+"  let macvim_hig_shift_movement = 1
+"endif
 
 " Tab/Shift Tab in Visual mode to indent text
 vnoremap <Tab> >gv
