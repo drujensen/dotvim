@@ -1,4 +1,25 @@
-execute pathogen#infect()
+call plug#begin()
+Plug 'rking/ag.vim'
+Plug 'bling/vim-airline'
+Plug 'Chiel92/vim-autoformat'
+Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/syntastic'
+Plug 'scrooloose/nerdtree'
+Plug 'ddollar/nerdcommenter'
+Plug 'airblade/vim-gitgutter'
+Plug 'majutsushi/tagbar'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'github/copilot.vim'
+
+" languages
+Plug 'vim-ruby/vim-ruby'
+Plug 'pangloss/vim-javascript'
+Plug 'rust-lang/rust.vim'
+Plug 'keith/swift.vim'
+Plug 'rhysd/vim-crystal'
+Plug 'mxw/vim-jsx'
+call plug#end()
+
 syntax on
 filetype plugin indent on
 
@@ -6,6 +27,7 @@ set background=dark
 colorscheme solarized
 let g:solarized_hitrail=1
 set gfn=Monaco:h14
+set history=10000
 
 set vb
 set nocp
@@ -23,8 +45,6 @@ set shiftwidth=2
 set softtabstop=2
 set clipboard=unnamed
 set textwidth=0 wrapmargin=0
-set history=10000
-set t_Co=256
 set laststatus=2 " In order for airline to show with NerdTree, need to set the laststatus=2
 set mouse=ar mousemodel=extend
 set exrc
@@ -95,7 +115,7 @@ let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
 
-map <C-n> :NERDTreeMirrorToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
 map <C-f> :NERDTreeFind<CR>
 map <C-_> <plug>NERDCommenterToggle<CR>
 map <C-\> :term<Space>bash<CR>
@@ -198,8 +218,6 @@ let g:vim_test_recall_cucumber_command = 'execute("term cucumber {feature}")'
 let g:vim_test_recall_rspec_command = 'execute("term rspec {spec}")'
 let g:vim_test_recall_crystal_command = 'execute("term crystal spec {spec}")'
 let g:vim_test_recall_javascript_command = 'execute("term npm test --cf {spec}")'
-
-call pathogen#helptags()
 
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
