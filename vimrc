@@ -10,6 +10,10 @@ Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'github/copilot.vim'
+Plug 'tpope/vim-fugitive'
+
+Plug 'JamshedVesuna/vim-markdown-preview'
+Plug 'xavierchow/vim-sequence-diagram'
 
 " languages
 Plug 'vim-ruby/vim-ruby'
@@ -170,10 +174,9 @@ map <leader>c :call RunAllCucumberFeatures()<cr>
 " Base64 Decode Selection
 noremap <leader>64 y:echo system('base64 --decode', @%)<cr>
 
-" Screen settings
-let g:ScreenImpl = 'Tmux'
-let g:ScreenShellTmuxInitArgs = '-2'
-let g:ScreenShellHeight = 10
+let vim_markdown_preview_hotkey='<C-m>'
+let vim_markdown_preview_github=1
+nmap <leader>m <Plug>GenerateDiagram
 
 " NERDTree settings
 let g:nerdtree_tabs_focus_on_files=1
