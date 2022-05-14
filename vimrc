@@ -11,6 +11,7 @@ Plug 'majutsushi/tagbar'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'github/copilot.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'drujensen/vim-test-recall'
 
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'xavierchow/vim-sequence-diagram'
@@ -172,7 +173,8 @@ map <leader>a :call RunAllRSpecTests()<cr>
 map <leader>c :call RunAllCucumberFeatures()<cr>
 
 " Base64 Decode Selection
-noremap <leader>64 y:echo system('base64 --decode', @%)<cr>
+noremap <leader>d6 :% !base64 -d <cr>
+noremap <leader>b6 :% !base64 <cr>
 
 let vim_markdown_preview_hotkey='<C-m>'
 let vim_markdown_preview_github=1
