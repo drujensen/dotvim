@@ -13,16 +13,14 @@ Plug 'github/copilot.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'drujensen/vim-test-recall'
 
-Plug 'JamshedVesuna/vim-markdown-preview'
-Plug 'xavierchow/vim-sequence-diagram'
-
 " languages
 Plug 'vim-ruby/vim-ruby'
+Plug 'python-mode/python-mode'
 Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 Plug 'rust-lang/rust.vim'
 Plug 'keith/swift.vim'
 Plug 'rhysd/vim-crystal'
-Plug 'mxw/vim-jsx'
 call plug#end()
 
 syntax on
@@ -63,16 +61,6 @@ set cmdheight=2
 set updatetime=300
 set shortmess+=c
 
-" autocomplete
-set omnifunc=syntaxcomplete#Complete
-set completeopt=longest,menuone
-:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
 " vim-ruby / vim-rails
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
@@ -81,9 +69,26 @@ autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 " treat all .md files as markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+" treat ejs as html
+autocmd BufNewFile,BufReadPost *.ejs set filetype=html
+
+" Autoformat crystal files on save
+let g:crystal_auto_format=1
+
+" AutoFormat rust files on save
+let g:rustfmt_autosave = 1
+
+" enable copilot for all files
+let g:copilot_filetypes = {
+      \ '*': v:true,
+      \ }
+
 " Toggle paste mode with Alt-p
 nnoremap π :set invpaste paste?<CR>
 set pastetoggle=π
+
+"Paste in visual mode without copying
+xnoremap p pgvy
 
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
@@ -97,11 +102,6 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " F6 will toggle syntastic
 silent! nnoremap <F6> :SyntasticToggleMode<CR>
 
-" Shift+Direction selects text
-"if has("gui_macvim")
-"  let macvim_hig_shift_movement = 1
-"endif
-
 " Tab/Shift Tab in Visual mode to indent text
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
@@ -110,26 +110,12 @@ vnoremap <S-Tab> <gv
 nmap <Tab> <c-w><c-w>
 nmap <s-Tab> <c-w><s-w>
 
-map <C-b> :buffers<CR>:buffer<Space>
 map <C-v> :TagbarToggle<CR>
-
-" Mappings for multi-cursor
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_next_key='<C-o>'
-let g:multi_cursor_prev_key='<C-p>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
-
+map <C-b> :buffers<CR>:buffer<Space>
 map <C-n> :NERDTreeToggle<CR>
 map <C-f> :NERDTreeFind<CR>
 map <C-_> <plug>NERDCommenterToggle<CR>
-map <C-\> :term<Space>bash<CR>
-
-" Autoformat crystal files on save
-let g:crystal_auto_format=1
-
-" AutoFormat rust files on save
-let g:rustfmt_autosave = 1
+map <C-\> <Esc>:sp<Space>\|<Space>term<Space>bash<CR>
 
 " Syntastic Settings
 set statusline+=%#warningmsg#
@@ -167,18 +153,33 @@ let g:ag_working_path_mode="r"
 let mapleader = "," " Set my leader key to be a comma
 
 " Map all the run test calls provided by vim-test-recall
-map <leader>t :call RunAllTestsInCurrentTestFile()<cr>
+map <leader>t :call RunCurrentTests()<cr>
 map <leader>s :call RunNearestTest()<cr>
-map <leader>a :call RunAllRSpecTests()<cr>
-map <leader>c :call RunAllCucumberFeatures()<cr>
+map <leader>a :call RunAllTests()<cr>
+
+let g:vim_test_recall_py = 'execute("sp | term pytest {spec}")'
+let g:vim_test_recall_rb = 'execute("sp | term rspec {spec}")'
+let g:vim_test_recall_js = 'execute("sp | term npm test --cf {spec}")'
+let g:vim_test_recall_cr = 'execute("sp | term crystal spec {spec}")'
+let g:vim_test_recall_go = 'execute("sp | term go test {spec}")'
+let g:vim_test_recall_rs = 'execute("sp | term cargo test {spec}")'
+let g:vim_test_recall_sw = 'execute("sp | term swift test")'
 
 " Base64 Decode Selection
 noremap <leader>d6 :% !base64 -d <cr>
 noremap <leader>b6 :% !base64 <cr>
 
-let vim_markdown_preview_hotkey='<C-m>'
-let vim_markdown_preview_github=1
-nmap <leader>m <Plug>GenerateDiagram
+" Binary Editor
+augroup Binary
+  au!
+  au BufReadPre  *.bin,*.out let &bin=1
+  au BufReadPost *.bin,*.out if &bin | %!xxd
+  au BufReadPost *.bin,*.out set ft=xxd | endif
+  au BufWritePre *.bin,*.out if &bin | %!xxd -r
+  au BufWritePre *.bin,*.out endif
+  au BufWritePost *.bin,*.out if &bin | %!xxd
+  au BufWritePost *.bin,*.out set nomod | endif
+augroup END
 
 " NERDTree settings
 let g:nerdtree_tabs_focus_on_files=1
@@ -217,12 +218,6 @@ function! SearchAndReplace()
   endif
 endfunction
 map <leader>r :call SearchAndReplace()<CR>
-
-" Run tests in ConqueTermSplit
-let g:vim_test_recall_cucumber_command = 'execute("term cucumber {feature}")'
-let g:vim_test_recall_rspec_command = 'execute("term rspec {spec}")'
-let g:vim_test_recall_crystal_command = 'execute("term crystal spec {spec}")'
-let g:vim_test_recall_javascript_command = 'execute("term npm test --cf {spec}")'
 
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
