@@ -9,9 +9,9 @@ Plug 'ddollar/nerdcommenter'
 Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar'
 Plug 'kien/rainbow_parentheses.vim'
-Plug 'github/copilot.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'drujensen/vim-test-recall'
+Plug 'github/copilot.vim'
 
 " languages
 Plug 'vim-ruby/vim-ruby'
@@ -110,7 +110,7 @@ vnoremap <S-Tab> <gv
 nmap <Tab> <c-w><c-w>
 nmap <s-Tab> <c-w><s-w>
 
-map <C-v> :TagbarToggle<CR>
+map <C-m> :TagbarToggle<CR>
 map <C-b> :buffers<CR>:buffer<Space>
 map <C-n> :NERDTreeToggle<CR>
 map <C-f> :NERDTreeFind<CR>
