@@ -64,6 +64,7 @@ set nowritebackup
 set cmdheight=2
 set updatetime=300
 set shortmess+=c
+set tags=.git/tags,tags;
 
 " vim-ruby / vim-rails
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
@@ -113,13 +114,13 @@ silent! nnoremap <F6> :SyntasticToggleMode<CR>
 
 " Tab/Shift Tab in Visual mode to indent text
 vnoremap <Tab> >gv
-vnoremap <S-Tab> <gv
+vnoremap <s-Tab> <gv
 
 " Tab between splits
 nmap <Tab> <c-w><c-w>
 nmap <s-Tab> <c-w><s-w>
 
-map <C-m>  :TagbarToggle<CR>
+map <C-l>  :TagbarToggle<CR>
 map <C-b>  :buffers<CR>:buffer<Space>
 map <C-n>  :NERDTreeToggle<CR>
 map <C-f>  :NERDTreeFind<CR>
@@ -181,6 +182,11 @@ let g:vim_test_recall_cl = 'execute("sp | term lein test")'
 " Base64 Decode Selection
 noremap <leader>d6 :% !base64 -d <cr>
 noremap <leader>b6 :% !base64 <cr>
+
+" Remap Java Imports
+map <unique> <Leader>js <Plug>JavaSortImport
+map <unique> <Leader>ji <Plug>JavaInsertImport
+map <unique> <Leader>jp <Plug>JavaInsertPackage
 
 " Binary Editor
 augroup Binary
