@@ -19,8 +19,12 @@ Plug 'python-mode/python-mode'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'rust-lang/rust.vim'
+Plug 'fatih/vim-go'
 Plug 'keith/swift.vim'
 Plug 'rhysd/vim-crystal'
+Plug 'tfnico/vim-gradle'
+Plug 'tpope/vim-classpath'
+Plug 'jvenant/vim-java-imports'
 call plug#end()
 
 syntax on
@@ -72,6 +76,13 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " treat ejs as html
 autocmd BufNewFile,BufReadPost *.ejs set filetype=html
 
+" Open NERTree automatically when vim starts
+" autocmd VimEnter * NERDTree
+" autocmd VimEnter * if argc() | wincmd p | endif
+
+" Close NERDTree automatically when vim quits
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 " Autoformat crystal files on save
 let g:crystal_auto_format=1
 
@@ -79,9 +90,7 @@ let g:crystal_auto_format=1
 let g:rustfmt_autosave = 1
 
 " enable copilot for all files
-let g:copilot_filetypes = {
-      \ '*': v:true,
-      \ }
+let g:copilot_filetypes = { '*': v:true, }
 
 " Toggle paste mode with Alt-p
 nnoremap π :set invpaste paste?<CR>
@@ -110,12 +119,13 @@ vnoremap <S-Tab> <gv
 nmap <Tab> <c-w><c-w>
 nmap <s-Tab> <c-w><s-w>
 
-map <C-m> :TagbarToggle<CR>
-map <C-b> :buffers<CR>:buffer<Space>
-map <C-n> :NERDTreeToggle<CR>
-map <C-f> :NERDTreeFind<CR>
-map <C-_> <plug>NERDCommenterToggle<CR>
-map <C-\> <Esc>:sp<Space>\|<Space>term<Space>bash<CR>
+map <C-m>  :TagbarToggle<CR>
+map <C-b>  :buffers<CR>:buffer<Space>
+map <C-n>  :NERDTreeToggle<CR>
+map <C-f>  :NERDTreeFind<CR>
+nmap <C-_> <Plug>NERDCommenterToggle
+vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
+map <C-\>  <Esc>:sp<Space>\|<Space>term<Space>bash<CR>
 
 " Syntastic Settings
 set statusline+=%#warningmsg#
@@ -164,6 +174,9 @@ let g:vim_test_recall_cr = 'execute("sp | term crystal spec {spec}")'
 let g:vim_test_recall_go = 'execute("sp | term go test {spec}")'
 let g:vim_test_recall_rs = 'execute("sp | term cargo test {spec}")'
 let g:vim_test_recall_sw = 'execute("sp | term swift test")'
+let g:vim_test_recall_ja = 'execute("sp | term gradle test")'
+let g:vim_test_recall_kt = 'execute("sp | term gradle test")'
+let g:vim_test_recall_cl = 'execute("sp | term lein test")'
 
 " Base64 Decode Selection
 noremap <leader>d6 :% !base64 -d <cr>
