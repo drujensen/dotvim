@@ -1,4 +1,8 @@
 call plug#begin()
+" colors
+Plug 'altercation/vim-colors-solarized'
+
+" features
 Plug 'rking/ag.vim'
 Plug 'bling/vim-airline'
 Plug 'Chiel92/vim-autoformat'
@@ -27,12 +31,11 @@ Plug 'tpope/vim-classpath'
 Plug 'jvenant/vim-java-imports'
 call plug#end()
 
-syntax on
 filetype plugin indent on
 
+syntax on
 set background=dark
 colorscheme solarized
-let g:solarized_hitrail=1
 set gfn=Monaco:h14
 set history=10000
 
@@ -174,10 +177,10 @@ let g:vim_test_recall_js = 'execute("sp | term npm test --cf {spec}")'
 let g:vim_test_recall_cr = 'execute("sp | term crystal spec {spec}")'
 let g:vim_test_recall_go = 'execute("sp | term go test {spec}")'
 let g:vim_test_recall_rs = 'execute("sp | term cargo test {spec}")'
+let g:vim_test_recall_cl = 'execute("sp | term lein test {spec}")'
 let g:vim_test_recall_sw = 'execute("sp | term swift test")'
 let g:vim_test_recall_ja = 'execute("sp | term gradle test")'
 let g:vim_test_recall_kt = 'execute("sp | term gradle test")'
-let g:vim_test_recall_cl = 'execute("sp | term lein test")'
 
 " Base64 Decode Selection
 noremap <leader>d6 :% !base64 -d <cr>
