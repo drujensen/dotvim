@@ -21,14 +21,10 @@ Plug 'github/copilot.vim'
 Plug 'vim-ruby/vim-ruby'
 Plug 'python-mode/python-mode'
 Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go'
 Plug 'keith/swift.vim'
 Plug 'rhysd/vim-crystal'
-Plug 'tfnico/vim-gradle'
-Plug 'tpope/vim-classpath'
-Plug 'jvenant/vim-java-imports'
 call plug#end()
 
 filetype plugin indent on
@@ -53,7 +49,7 @@ set hlsearch
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-set clipboard=unnamed
+set clipboard=unnamedplus
 set textwidth=0 wrapmargin=0
 set laststatus=2 " In order for airline to show with NerdTree, need to set the laststatus=2
 set mouse=ar mousemodel=extend
@@ -185,11 +181,6 @@ let g:vim_test_recall_kt = 'execute("sp | term gradle test")'
 " Base64 Decode Selection
 noremap <leader>d6 :% !base64 -d <cr>
 noremap <leader>b6 :% !base64 <cr>
-
-" Remap Java Imports
-map <unique> <Leader>js <Plug>JavaSortImport
-map <unique> <Leader>ji <Plug>JavaInsertImport
-map <unique> <Leader>jp <Plug>JavaInsertPackage
 
 " Binary Editor
 augroup Binary
