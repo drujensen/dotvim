@@ -16,10 +16,10 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'drujensen/vim-test-recall'
 Plug 'github/copilot.vim'
+Plug 'madox2/vim-ai'
 
 " languages
 Plug 'vim-ruby/vim-ruby'
-Plug 'python-mode/python-mode'
 Plug 'pangloss/vim-javascript'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go'
@@ -55,7 +55,6 @@ set laststatus=2 " In order for airline to show with NerdTree, need to set the l
 set mouse=ar mousemodel=extend
 set exrc
 set secure
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 set splitright
 set splitbelow
 set nobackup
@@ -76,14 +75,7 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " treat ejs as html
 autocmd BufNewFile,BufReadPost *.ejs set filetype=html
 
-" Open NERTree automatically when vim starts
-" autocmd VimEnter * NERDTree
-" autocmd VimEnter * if argc() | wincmd p | endif
-
-" Close NERDTree automatically when vim quits
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Autoformat crystal files on save
+"" Autoformat crystal files on save
 let g:crystal_auto_format=1
 
 " AutoFormat rust files on save
@@ -108,9 +100,6 @@ noremap <F3> :Autoformat<CR>
 " F5 will remove all trailing spaces
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
-" F6 will toggle syntastic
-silent! nnoremap <F6> :SyntasticToggleMode<CR>
-
 " Tab/Shift Tab in Visual mode to indent text
 vnoremap <Tab> >gv
 vnoremap <s-Tab> <gv
@@ -128,19 +117,24 @@ vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 map <C-\>  <Esc>:sp<Space>\|<Space>term<Space>bash<CR>
 
 " Syntastic Settings
+silent! nnoremap <F6> :SyntasticToggleMode<CR>
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
+" Disable Java
+let g:loaded_syntastic_java_javac_checker = 1
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 
-let g:syntastic_error_symbol = '❌'
-let g:syntastic_style_error_symbol = '⁉️'
-let g:syntastic_warning_symbol = '⚠️'
-let g:syntastic_style_warning_symbol = '💩'
+ let g:syntastic_error_symbol = '❌'
+ let g:syntastic_style_error_symbol = '⁉️'
+ let g:syntastic_warning_symbol = '⚠️'
+ let g:syntastic_style_warning_symbol = '💩'
 
 highlight link SyntasticErrorSign SignColumn
 highlight link SyntasticWarningSign SignColumn
@@ -148,6 +142,13 @@ highlight link SyntasticStyleErrorSign SignColumn
 highlight link SyntasticStyleWarningSign SignColumn
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_python_checkers=['flake8', 'python3']
+
+" Rainbow Parentheses
+au VimEnter * RainbowParenthesesToggle
+au Syntax *  RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 " The Silver Searcher - brew install the_silver_searcher
 " Use ag over grep
@@ -159,28 +160,6 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 " ag is fast enough that CtrlP doesn't need to cache
 let g:ctrlp_use_caching = 0
 let g:ag_working_path_mode="r"
-
-let mapleader = "," " Set my leader key to be a comma
-
-" Map all the run test calls provided by vim-test-recall
-map <leader>t :call RunCurrentTests()<cr>
-map <leader>s :call RunNearestTest()<cr>
-map <leader>a :call RunAllTests()<cr>
-
-let g:vim_test_recall_py = 'execute("sp | term pytest {spec}")'
-let g:vim_test_recall_rb = 'execute("sp | term rspec {spec}")'
-let g:vim_test_recall_js = 'execute("sp | term npm test --cf {spec}")'
-let g:vim_test_recall_cr = 'execute("sp | term crystal spec {spec}")'
-let g:vim_test_recall_go = 'execute("sp | term go test {spec}")'
-let g:vim_test_recall_rs = 'execute("sp | term cargo test {spec}")'
-let g:vim_test_recall_cl = 'execute("sp | term lein test {spec}")'
-let g:vim_test_recall_sw = 'execute("sp | term swift test")'
-let g:vim_test_recall_ja = 'execute("sp | term gradle test")'
-let g:vim_test_recall_kt = 'execute("sp | term gradle test")'
-
-" Base64 Decode Selection
-noremap <leader>d6 :% !base64 -d <cr>
-noremap <leader>b6 :% !base64 <cr>
 
 " Binary Editor
 augroup Binary
@@ -197,14 +176,48 @@ augroup END
 " NERDTree settings
 let g:nerdtree_tabs_focus_on_files=1
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+
+let mapleader = "," " Set my leader key to be a comma
+
+" Map all the run test calls provided by vim-test-recall
+map <leader>t :call RunCurrentTests()<cr>
+map <leader>s :call RunNearestTest()<cr>
+
+let g:vim_test_recall_py = 'execute("sp | term pytest {spec}")'
+let g:vim_test_recall_rb = 'execute("sp | term rspec {spec}")'
+let g:vim_test_recall_js = 'execute("sp | term npm test --cf {spec}")'
+let g:vim_test_recall_cr = 'execute("sp | term crystal spec {spec}")'
+let g:vim_test_recall_go = 'execute("sp | term go test {spec}")'
+let g:vim_test_recall_rs = 'execute("sp | term cargo test {spec}")'
+let g:vim_test_recall_clj = 'execute("sp | term lein test {spec}")'
+let g:vim_test_recall_sw = 'execute("sp | term swift test")'
+let g:vim_test_recall_ja = 'execute("sp | term gradle test")'
+let g:vim_test_recall_kt = 'execute("sp | term gradle test")'
+
+" AI Chat mapping
+
+" let g:vim_ai_chat = {
+" \  "options": {
+" \    "model": "gpt-4",
+" \    "temperature": 0.2,
+" \  },
+" \}
+
+noremap <leader>a :AIChat
+noremap <leader>c :AIChat<cr>
+
+" Base64 Decode Selection
+noremap <leader>d6 :% !base64 -d <cr>
+noremap <leader>b6 :% !base64 <cr>
 
 " Git settings
 nnoremap <leader>g  :Git<Space>
 nnoremap <leader>ga :Git add %<CR>
-nnoremap <leader>gr :Git restore --staged %<CR>
+nnoremap <leader>gr :Git checkout -- %<CR>
 nnoremap <leader>gc :Git commit -v -q<CR>
 nnoremap <leader>gd :Git diff<CR>
-nnoremap <leader>gp :Git pull<CR>
 nnoremap <Leader>gb :Git blame<CR>
 nnoremap <leader>gs :Git status<CR>
 nnoremap <leader>gl :Git log<CR>
@@ -231,8 +244,3 @@ function! SearchAndReplace()
   endif
 endfunction
 map <leader>r :call SearchAndReplace()<CR>
-
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
