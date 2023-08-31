@@ -198,12 +198,12 @@ let g:vim_test_recall_kt = 'execute("sp | term gradle test")'
 
 " AI Chat mapping
 
-" let g:vim_ai_chat = {
-" \  "options": {
-" \    "model": "gpt-4",
-" \    "temperature": 0.2,
-" \  },
-" \}
+let g:vim_ai_chat = {
+\  "options": {
+\    "model": "gpt-4",
+\    "temperature": 0.2,
+\  },
+\}
 
 noremap <leader>a :AIChat
 noremap <leader>c :AIChat<cr>
