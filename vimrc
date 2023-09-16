@@ -9,6 +9,7 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'kien/ctrlp.vim'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ddollar/nerdcommenter'
 Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar'
@@ -217,13 +218,12 @@ nnoremap <leader>g  :Git<Space>
 nnoremap <leader>ga :Git add %<CR>
 nnoremap <leader>gr :Git checkout -- %<CR>
 nnoremap <leader>gc :Git commit -v -q<CR>
-nnoremap <leader>gd :Git diff<CR>
+nnoremap <leader>gp :Git push<CR>
+nnoremap <leader>gd :Git diff %<CR>
 nnoremap <Leader>gb :Git blame<CR>
 nnoremap <leader>gs :Git status<CR>
 nnoremap <leader>gl :Git log<CR>
 nnoremap <leader>gv :Git lg<CR>
-nnoremap <Leader>gn :cnext<CR>
-nnoremap <Leader>gp :cprev<CR>
 
 " Custom Global Find
 function! GlobalFind()
