@@ -5,9 +5,7 @@ Plug 'altercation/vim-colors-solarized'
 " features
 Plug 'rking/ag.vim'
 Plug 'bling/vim-airline'
-Plug 'Chiel92/vim-autoformat'
 Plug 'kien/ctrlp.vim'
-Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ddollar/nerdcommenter'
@@ -18,6 +16,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'drujensen/vim-test-recall'
 Plug 'github/copilot.vim'
 Plug 'madox2/vim-ai'
+" Plug 'Chiel92/vim-autoformat'
+" Plug 'scrooloose/syntastic'
 
 " languages
 Plug 'vim-ruby/vim-ruby'
@@ -28,6 +28,7 @@ Plug 'keith/swift.vim'
 Plug 'rhysd/vim-crystal'
 
 " LSP Support
+Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
 Plug 'neovim/nvim-lspconfig'             " Required
 Plug 'williamboman/mason.nvim'           " Optional
 Plug 'williamboman/mason-lspconfig.nvim' " Optional
@@ -37,7 +38,6 @@ Plug 'hrsh7th/nvim-cmp'         " Required
 Plug 'hrsh7th/cmp-nvim-lsp'     " Required
 Plug 'L3MON4D3/LuaSnip'         " Required
 
-Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v2.x'}
 call plug#end()
 
 filetype plugin indent on
@@ -107,12 +107,6 @@ xnoremap p pgvy
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
 
-" F3 will AutoFormat Settings
-noremap <F3> :Autoformat<CR>
-
-" F5 will remove all trailing spaces
-nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-
 " Tab/Shift Tab in Visual mode to indent text
 vnoremap <Tab> >gv
 vnoremap <s-Tab> <gv
@@ -129,33 +123,33 @@ nmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 map <C-\>  <Esc>:sp<Space>\|<Space>term<Space>bash<CR>
 
-" Syntastic Settings
-silent! nnoremap <F6> :SyntasticToggleMode<CR>
-
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+" Syntastic Settings
+" silent! nnoremap <F6> :SyntasticToggleMode<CR>
+
 " Disable Java
-let g:loaded_syntastic_java_javac_checker = 1
+" let g:loaded_syntastic_java_javac_checker = 1
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 1
 
- let g:syntastic_error_symbol = '❌'
- let g:syntastic_style_error_symbol = '⁉️'
- let g:syntastic_warning_symbol = '⚠️'
- let g:syntastic_style_warning_symbol = '💩'
+"  let g:syntastic_error_symbol = '❌'
+"  let g:syntastic_style_error_symbol = '⁉️'
+"  let g:syntastic_warning_symbol = '⚠️'
+"  let g:syntastic_style_warning_symbol = '💩'
 
-highlight link SyntasticErrorSign SignColumn
-highlight link SyntasticWarningSign SignColumn
-highlight link SyntasticStyleErrorSign SignColumn
-highlight link SyntasticStyleWarningSign SignColumn
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-let g:syntastic_python_checkers=['flake8', 'python3']
+" highlight link SyntasticErrorSign SignColumn
+" highlight link SyntasticWarningSign SignColumn
+" highlight link SyntasticStyleErrorSign SignColumn
+" highlight link SyntasticStyleWarningSign SignColumn
+" let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+" let g:syntastic_python_checkers=['flake8', 'python3']
 
 " Rainbow Parentheses
 au VimEnter * RainbowParenthesesToggle
@@ -234,8 +228,9 @@ nnoremap <leader>gp :Git push<CR>
 nnoremap <leader>gd :Git diff %<CR>
 nnoremap <Leader>gb :Git blame<CR>
 nnoremap <leader>gs :Git status<CR>
-nnoremap <leader>gl :Git log<CR>
-nnoremap <leader>gv :Git lg<CR>
+nnoremap <leader>gg :Git log<CR>
+nnoremap <leader>gl :Git lg<CR>
+nnoremap <leader>gs :Git ls<CR>
 
 " Custom Global Find
 function! GlobalFind()
@@ -257,18 +252,66 @@ function! SearchAndReplace()
 endfunction
 map <leader>r :call SearchAndReplace()<CR>
 
+" F5 will remove all trailing spaces
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+function! ToggleDiagnostics()
+    if exists("b:diagnostics_enabled")
+        if b:diagnostics_enabled
+            lua vim.diagnostic.disable()
+            let b:diagnostics_enabled = 0
+        else
+            lua vim.diagnostic.enable()
+            let b:diagnostics_enabled = 1
+        endif
+    else
+        lua vim.diagnostic.disable()
+        let b:diagnostics_enabled = 0
+    endif
+endfunction
+
+" F6 will toggle diagnostics
+nnoremap <F6> :call ToggleDiagnostics()<CR>
+
 " Setup LSP
 lua <<EOF
-local lsp = require('lsp-zero').preset({})
+  local lsp_zero = require('lsp-zero').preset({})
 
-lsp.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
-  lsp.default_keymaps({buffer = bufnr})
-end)
+  lsp_zero.set_sign_icons({
+    error = '✘',
+    warn = '▲',
+    hint = '⚑',
+    info = '»'
+  })
 
--- " (Optional) Configure lua language server for neovim
-require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+  lsp_zero.on_attach(function(client, bufnr)
+    -- see :help lsp-zero-keybindings
+    lsp_zero.default_keymaps({buffer = bufnr})
+  end)
 
-lsp.setup()
+  require('mason').setup({})
+  require('mason-lspconfig').setup({
+    ensure_installed = {
+      'clangd', 'rust_analyzer', 'gopls', 'swift-mesonlsp',
+      'java_language_server', 'gradle_ls','clojure_lsp',
+      'eslint', 'tsserver', 'pylsp', 'ruby_ls', 'rubocop',
+      'yamlls', 'jsonls', 'taplo', 'cssls', 'html',
+      'dockerls', 'terraformls', 'vimls', 'bashls',
+    },
+    handlers = {
+      lsp_zero.default_setup,
+    }
+  })
+
+  local cmp = require('cmp')
+  local cmp_format = lsp_zero.cmp_format()
+
+  cmp.setup({
+    formatting = cmp_format,
+    mapping = cmp.mapping.preset.insert({
+      -- scroll up and down the documentation window
+      ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-d>'] = cmp.mapping.scroll_docs(4),
+    }),
+  })
 EOF
