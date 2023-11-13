@@ -16,8 +16,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'drujensen/vim-test-recall'
 Plug 'github/copilot.vim'
 Plug 'madox2/vim-ai'
-" Plug 'Chiel92/vim-autoformat'
-" Plug 'scrooloose/syntastic'
 
 " languages
 Plug 'vim-ruby/vim-ruby'
@@ -28,7 +26,6 @@ Plug 'keith/swift.vim'
 Plug 'rhysd/vim-crystal'
 
 " LSP Support
-Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
 Plug 'neovim/nvim-lspconfig'             " Required
 Plug 'williamboman/mason.nvim'           " Optional
 Plug 'williamboman/mason-lspconfig.nvim' " Optional
@@ -37,6 +34,8 @@ Plug 'williamboman/mason-lspconfig.nvim' " Optional
 Plug 'hrsh7th/nvim-cmp'         " Required
 Plug 'hrsh7th/cmp-nvim-lsp'     " Required
 Plug 'L3MON4D3/LuaSnip'         " Required
+
+Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
 
 call plug#end()
 
@@ -207,7 +206,7 @@ let g:vim_test_recall_kt = 'execute("sp | term gradle test")'
 
 let g:vim_ai_chat = {
 \  "options": {
-\    "model": "gpt-4",
+\    "model": "gpt-4-1106-preview",
 \    "temperature": 0.2,
 \  },
 \}
@@ -276,6 +275,12 @@ nnoremap <F6> :call ToggleDiagnostics()<CR>
 " Setup LSP
 lua <<EOF
   local lsp_zero = require('lsp-zero').preset({})
+  local lspconfig = require('lspconfig')
+
+  -- need to install crystalline manually for arm chip
+  lspconfig.crystalline.setup({
+    on_attach = lsp_zero.on_attach,
+  })
 
   lsp_zero.set_sign_icons({
     error = '✘',
@@ -307,11 +312,20 @@ lua <<EOF
   local cmp_format = lsp_zero.cmp_format()
 
   cmp.setup({
+    sources = {
+      {name = 'path'},
+      {name = 'nvim_lsp'},
+      {name = 'nvim_lua'},
+    },
     formatting = cmp_format,
     mapping = cmp.mapping.preset.insert({
-      -- scroll up and down the documentation window
       ['<C-u>'] = cmp.mapping.scroll_docs(-4),
       ['<C-d>'] = cmp.mapping.scroll_docs(4),
+      ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+      ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
   })
 EOF
