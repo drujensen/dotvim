@@ -297,8 +297,7 @@ lua <<EOF
   require('mason').setup({})
   require('mason-lspconfig').setup({
     ensure_installed = {
-      'clangd', 'rust_analyzer', 'gopls',
-      'jdtls', 'gradle_ls','clojure_lsp',
+      'rust_analyzer', 'gopls', 'jdtls', 'gradle_ls','clojure_lsp',
       'eslint', 'tsserver', 'pylsp', 'ruby_ls', 'rubocop',
       'yamlls', 'jsonls', 'taplo', 'cssls', 'html', 'sqlls',
       'dockerls', 'terraformls', 'vimls', 'bashls',
