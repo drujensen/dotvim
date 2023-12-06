@@ -114,8 +114,9 @@ vnoremap <s-Tab> <gv
 nmap <Tab> <c-w><c-w>
 nmap <s-Tab> <c-w><s-w>
 
-map <C-l>  :TagbarToggle<CR>
+map <C-a> <esc>ggVG<CR>
 map <C-b>  :buffers<CR>:buffer<Space>
+map <C-l>  :TagbarToggle<CR>
 map <C-n>  :NERDTreeToggle<CR>
 map <C-f>  :NERDTreeFind<CR>
 nmap <C-_> <Plug>NERDCommenterToggle
