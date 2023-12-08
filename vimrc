@@ -45,7 +45,10 @@ syntax on
 set background=dark
 colorscheme solarized
 set gfn=Monaco:h14
-set history=10000
+
+" fix for vim-gitgutter and solarized
+highlight! link SignColumn LineNr
+autocmd ColorScheme * highlight! link SignColumn LineNr
 
 set vb
 set nocp
@@ -63,6 +66,7 @@ set shiftwidth=2
 set softtabstop=2
 set clipboard=unnamedplus
 set textwidth=0 wrapmargin=0
+set history=10000
 set laststatus=2 " In order for airline to show with NerdTree, need to set the laststatus=2
 set mouse=ar mousemodel=extend
 set exrc
