@@ -16,6 +16,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'drujensen/vim-test-recall'
 Plug 'github/copilot.vim'
 Plug 'madox2/vim-ai'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'godlygeek/tabular'
+Plug 'iamcco/markdown-preview.nvim'
 
 " languages
 Plug 'vim-ruby/vim-ruby'
@@ -24,6 +28,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go'
 Plug 'keith/swift.vim'
 Plug 'rhysd/vim-crystal'
+Plug 'plasticboy/vim-markdown', { 'do': { -> mkdp#util#install() } }
 
 " LSP Support
 Plug 'neovim/nvim-lspconfig'             " Required
@@ -127,33 +132,23 @@ nmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 map <C-\>  <Esc>:sp<Space>\|<Space>term<Space>bash<CR>
 
+" UltiSnips Settings
+let g:UltiSnipsExpandTrigger="<tab>"  " use <Tab> to trigger autocompletion
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+" markdown settings
+let g:vim_markdown_frontmatter = 1  " for YAML format
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_conceal = 0
+let g:tex_conceal = ""
+let g:vim_markdown_math = 1
+let g:mkdp_auto_close = 0
+
+" vim-airline settings
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
-" Syntastic Settings
-" silent! nnoremap <F6> :SyntasticToggleMode<CR>
-
-" Disable Java
-" let g:loaded_syntastic_java_javac_checker = 1
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 0
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 1
-
-"  let g:syntastic_error_symbol = '❌'
-"  let g:syntastic_style_error_symbol = '⁉️'
-"  let g:syntastic_warning_symbol = '⚠️'
-"  let g:syntastic_style_warning_symbol = '💩'
-
-" highlight link SyntasticErrorSign SignColumn
-" highlight link SyntasticWarningSign SignColumn
-" highlight link SyntasticStyleErrorSign SignColumn
-" highlight link SyntasticStyleWarningSign SignColumn
-" let g:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-" let g:syntastic_python_checkers=['flake8', 'python3']
 
 " Rainbow Parentheses
 au VimEnter * RainbowParenthesesToggle
@@ -235,6 +230,9 @@ nnoremap <leader>gs :Git status<CR>
 nnoremap <leader>gg :Git log<CR>
 nnoremap <leader>gl :Git lg<CR>
 nnoremap <leader>gs :Git ls<CR>
+
+" Markdown Preview
+nnoremap <leader>m :MarkdownPreview<CR>
 
 " Custom Global Find
 function! GlobalFind()
