@@ -16,10 +16,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'drujensen/vim-test-recall'
 Plug 'github/copilot.vim'
 Plug 'madox2/vim-ai'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'godlygeek/tabular'
-Plug 'iamcco/markdown-preview.nvim'
 
 " languages
 Plug 'vim-ruby/vim-ruby'
@@ -28,7 +24,6 @@ Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go'
 Plug 'keith/swift.vim'
 Plug 'rhysd/vim-crystal'
-Plug 'plasticboy/vim-markdown', { 'do': { -> mkdp#util#install() } }
 
 " LSP Support
 Plug 'neovim/nvim-lspconfig'             " Required
@@ -132,19 +127,6 @@ nmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 map <C-\>  <Esc>:sp<Space>\|<Space>term<Space>bash<CR>
 
-" UltiSnips Settings
-let g:UltiSnipsExpandTrigger="<tab>"  " use <Tab> to trigger autocompletion
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
-" markdown settings
-let g:vim_markdown_frontmatter = 1  " for YAML format
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_conceal = 0
-let g:tex_conceal = ""
-let g:vim_markdown_math = 1
-let g:mkdp_auto_close = 0
-
 " vim-airline settings
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -193,7 +175,7 @@ map <leader>s :call RunNearestTest()<cr>
 
 let g:vim_test_recall_py = 'execute("sp | term pytest {spec}")'
 let g:vim_test_recall_rb = 'execute("sp | term rspec {spec}")'
-let g:vim_test_recall_js = 'execute("sp | term npm test --cf {spec}")'
+let g:vim_test_recall_js = 'execute("sp | term yarn run test {spec}")'
 let g:vim_test_recall_cr = 'execute("sp | term crystal spec {spec}")'
 let g:vim_test_recall_go = 'execute("sp | term go test {spec}")'
 let g:vim_test_recall_rs = 'execute("sp | term cargo test {spec}")'
@@ -238,7 +220,7 @@ nnoremap <leader>m :MarkdownPreview<CR>
 function! GlobalFind()
   let word = inputdialog('Search: ', expand('<cword>'), '')
   if word != ''
-    exec ':Ag --ignore-dir=log --ignore-dir=generated ' . word
+    exec ':Ag ' . word
   endif
 endfunction
 map <leader>f :call GlobalFind()<CR>
