@@ -16,6 +16,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'drujensen/vim-test-recall'
 Plug 'github/copilot.vim'
 Plug 'madox2/vim-ai'
+Plug 'nicwest/vim-http'
 
 " languages
 Plug 'vim-ruby/vim-ruby'
@@ -90,6 +91,9 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " treat ejs as html
 autocmd BufNewFile,BufReadPost *.ejs set filetype=html
+
+" c# indenting to 4 spaces
+autocmd FileType cs setlocal shiftwidth=4 tabstop=4
 
 "" Autoformat crystal files on save
 let g:crystal_auto_format=1
@@ -183,6 +187,7 @@ let g:vim_test_recall_clj = 'execute("sp | term lein test {spec}")'
 let g:vim_test_recall_sw = 'execute("sp | term swift test")'
 let g:vim_test_recall_ja = 'execute("sp | term gradle test")'
 let g:vim_test_recall_kt = 'execute("sp | term gradle test")'
+let g:vim_test_recall_cs = 'execute("sp | term dotnet test")'
 
 " AI Chat mapping
 
@@ -220,7 +225,7 @@ nnoremap <leader>m :MarkdownPreview<CR>
 function! GlobalFind()
   let word = inputdialog('Search: ', expand('<cword>'), '')
   if word != ''
-    exec ':Ag ' . word
+    exec ':Ag ' . word . ' --ignore obj --ignore bin'
   endif
 endfunction
 map <leader>f :call GlobalFind()<CR>
@@ -230,7 +235,11 @@ function! SearchAndReplace()
   if search != ''
     let replace = inputdialog('Replace: ', '', '')
     if replace != ''
-      exec ':%s/' . search . '/' . replace . '/gc'
+      if &buftype ==# 'quickfix'
+        exec 'cdo %s/' . search . '/' . replace . '/gc | cwindow'
+      else
+        exec ':%s/' . search . '/' . replace . '/gc'
+      endif
     endif
   endif
 endfunction
