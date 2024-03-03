@@ -223,9 +223,7 @@ vim.api.nvim_set_keymap('n', '<leader>gg', ':Git log<CR>', { noremap = true, sil
 vim.api.nvim_set_keymap('n', '<leader>gl', ':Git lg<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>gs', ':Git ls<CR>', { noremap = true, silent = true })
 
--- Markdown Preview
-vim.api.nvim_set_keymap('n', '<leader>m', ':MarkdownPreview<CR>', { noremap = true, silent = true })
-
+-- GlobalFind function
 function GlobalFind()
   local word = vim.fn.input('Search: ', vim.fn.expand('<cword>'))
   if word ~= '' then

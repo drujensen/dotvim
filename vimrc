@@ -25,19 +25,6 @@ Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go'
 Plug 'keith/swift.vim'
 Plug 'rhysd/vim-crystal'
-
-" LSP Support
-Plug 'neovim/nvim-lspconfig'             " Required
-Plug 'williamboman/mason.nvim'           " Optional
-Plug 'williamboman/mason-lspconfig.nvim' " Optional
-
-" Autocompletion
-Plug 'hrsh7th/nvim-cmp'         " Required
-Plug 'hrsh7th/cmp-nvim-lsp'     " Required
-Plug 'L3MON4D3/LuaSnip'         " Required
-
-Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
-
 call plug#end()
 
 filetype plugin indent on
@@ -218,9 +205,6 @@ nnoremap <leader>gg :Git log<CR>
 nnoremap <leader>gl :Git lg<CR>
 nnoremap <leader>gs :Git ls<CR>
 
-" Markdown Preview
-nnoremap <leader>m :MarkdownPreview<CR>
-
 " Custom Global Find
 function! GlobalFind()
   let word = inputdialog('Search: ', expand('<cword>'), '')
@@ -247,78 +231,3 @@ map <leader>r :call SearchAndReplace()<CR>
 
 " F5 will remove all trailing spaces
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-
-function! ToggleDiagnostics()
-    if exists("b:diagnostics_enabled")
-        if b:diagnostics_enabled
-            lua vim.diagnostic.disable()
-            let b:diagnostics_enabled = 0
-        else
-            lua vim.diagnostic.enable()
-            let b:diagnostics_enabled = 1
-        endif
-    else
-        lua vim.diagnostic.disable()
-        let b:diagnostics_enabled = 0
-    endif
-endfunction
-
-" F6 will toggle diagnostics
-nnoremap <F6> :call ToggleDiagnostics()<CR>
-
-" Setup LSP
-lua <<EOF
-  local lsp_zero = require('lsp-zero').preset({})
-  local lspconfig = require('lspconfig')
-
-  -- need to install crystalline manually for arm chip
-  lspconfig.crystalline.setup({
-    on_attach = lsp_zero.on_attach,
-  })
-
-  lsp_zero.set_sign_icons({
-    error = '✘',
-    warn = '▲',
-    hint = '⚑',
-    info = '»'
-  })
-
-  lsp_zero.on_attach(function(client, bufnr)
-    -- see :help lsp-zero-keybindings
-    lsp_zero.default_keymaps({buffer = bufnr})
-  end)
-
-  require('mason').setup({})
-  require('mason-lspconfig').setup({
-    ensure_installed = {
-      'rust_analyzer', 'gopls', 'jdtls', 'gradle_ls','clojure_lsp',
-      'eslint', 'tsserver', 'pylsp', 'ruby_ls', 'rubocop',
-      'yamlls', 'jsonls', 'taplo', 'cssls', 'html', 'sqlls',
-      'dockerls', 'terraformls', 'vimls', 'bashls',
-    },
-    handlers = {
-      lsp_zero.default_setup,
-    }
-  })
-
-  local cmp = require('cmp')
-  local cmp_format = lsp_zero.cmp_format()
-
-  cmp.setup({
-    sources = {
-      {name = 'path'},
-      {name = 'nvim_lsp'},
-      {name = 'nvim_lua'},
-    },
-    formatting = cmp_format,
-    mapping = cmp.mapping.preset.insert({
-      ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-d>'] = cmp.mapping.scroll_docs(4),
-      ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-      ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    }),
-  })
-EOF
