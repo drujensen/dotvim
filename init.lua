@@ -280,12 +280,18 @@ if is_plugins_installed() then
   -- F6 will toggle diagnostics
   vim.api.nvim_set_keymap('n', '<F6>', '<cmd>lua ToggleDiagnostics()<CR>', { noremap = true, silent = true })
 
-  local lsp_zero = require('lsp-zero').preset({})
   local lspconfig = require('lspconfig')
+  local lsp_zero = require('lsp-zero').preset({})
 
   -- need to install crystalline manually for arm chip
   lspconfig.crystalline.setup({
-  on_attach = lsp_zero.on_attach,
+    on_attach = lsp_zero.on_attach,
+  })
+
+  -- mojo not supported by mason yet
+  --
+  lspconfig.mojo.setup({
+    on_attach = lsp_zero.on_attach,
   })
 
   lsp_zero.set_sign_icons({
