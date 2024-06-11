@@ -14,7 +14,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  'altercation/vim-colors-solarized',
+  'overcache/NeoSolarized',
   'rking/ag.vim',
   'bling/vim-airline',
   'kien/ctrlp.vim',
@@ -54,9 +54,11 @@ if is_plugins_installed() then
   vim.o.background = 'dark'
   vim.o.guifont = 'Monaco:h14'
 
-  vim.cmd('syntax on')
-  vim.cmd('colorscheme solarized')
-  vim.cmd('highlight! link SignColumn LineNr')
+  vim.cmd [[
+    syntax on
+    colorscheme NeoSolarized
+    highlight! link SignColumn LineNr
+  ]]
 
   vim.o.vb = true
   vim.o.hidden = true
