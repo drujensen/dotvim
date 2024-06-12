@@ -145,8 +145,10 @@ if is_plugins_installed() then
   vim.api.nvim_set_keymap('n', '<C-_>', '<Plug>NERDCommenterToggle', { noremap = true, silent = true })
   vim.api.nvim_set_keymap('v', '<C-_>', '<Plug>NERDCommenterToggle<CR>gv', { noremap = true, silent = true })
 
-  -- Open terminal split
-  vim.api.nvim_set_keymap('', '<C-\\>', '<Esc>:sp | term bash<CR>', { noremap = true, silent = true })
+  -- Open a terminal in a new split
+  local os_name = vim.loop.os_uname().sysname
+  local term_cmd = os_name == "Windows_NT" and "pwsh" or "bash"
+  vim.api.nvim_set_keymap('', '<C-\\>', '<Esc>:sp | term ' .. term_cmd .. '<CR>', { noremap = true, silent = true })
 
   -- vim-airline settings
   vim.cmd [[
