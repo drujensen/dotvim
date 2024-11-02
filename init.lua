@@ -29,6 +29,13 @@ require("lazy").setup({
   'drujensen/vim-test-recall',
   'github/copilot.vim',
   'madox2/vim-ai',
+  {
+    'nvim-telescope/telescope.nvim', tag = '0.1.8',
+      dependencies = { 'nvim-lua/plenary.nvim' }
+  },
+  {
+      'MoaidHathot/dotnet.nvim', cmd = "DotnetUI", opts = {},
+  },
 
   'nicwest/vim-http',
   'vim-ruby/vim-ruby',
@@ -322,7 +329,7 @@ if is_plugins_installed() then
   require('mason-lspconfig').setup({
     ensure_installed = {
       'rust_analyzer', 'gopls', 'jdtls', 'gradle_ls','clojure_lsp',
-      'eslint', 'tsserver', 'pylsp', 'ruby_lsp', 'rubocop',
+      'eslint', 'tsserver', 'pylsp', 'ruby_ls', 'rubocop',
       'yamlls', 'jsonls', 'taplo', 'cssls', 'html', 'sqlls',
       'dockerls', 'terraformls', 'vimls', 'bashls', 'omnisharp',
     },
