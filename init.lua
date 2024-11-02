@@ -15,6 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   'overcache/NeoSolarized',
+
   'rking/ag.vim',
   'bling/vim-airline',
   'kien/ctrlp.vim',
@@ -28,6 +29,7 @@ require("lazy").setup({
   'drujensen/vim-test-recall',
   'github/copilot.vim',
   'madox2/vim-ai',
+
   'nicwest/vim-http',
   'vim-ruby/vim-ruby',
   'pangloss/vim-javascript',
@@ -36,13 +38,18 @@ require("lazy").setup({
   'keith/swift.vim',
   'czheo/mojo.vim',
   'rhysd/vim-crystal',
+
   'neovim/nvim-lspconfig',
   'williamboman/mason.nvim',
   'williamboman/mason-lspconfig.nvim',
-  'hrsh7th/nvim-cmp',
-  'hrsh7th/cmp-nvim-lsp',
   'L3MON4D3/LuaSnip',
   'VonHeikemen/lsp-zero.nvim',
+
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-cmdline',
+  'hrsh7th/nvim-cmp',
 })
 
 local function is_plugins_installed()
@@ -55,6 +62,7 @@ if is_plugins_installed() then
   vim.o.guifont = 'Monaco:h14'
 
   vim.cmd [[
+    filetype plugin indent on
     syntax on
     colorscheme NeoSolarized
     highlight! link SignColumn LineNr
@@ -114,6 +122,7 @@ if is_plugins_installed() then
     callback = function()
       vim.bo.shiftwidth = 4
       vim.bo.tabstop = 4
+      vim.bo.fileformat = "unix"
     end,
   })
 
@@ -180,11 +189,10 @@ if is_plugins_installed() then
   vim.g.nerdtree_tabs_focus_on_files = 1
 
   vim.cmd [[
+    let g:NERDTreeIgnore = ['\v(obj|bin)$']
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   ]]
-
-
 
   vim.g.mapleader = ","
 
@@ -314,7 +322,7 @@ if is_plugins_installed() then
   require('mason-lspconfig').setup({
     ensure_installed = {
       'rust_analyzer', 'gopls', 'jdtls', 'gradle_ls','clojure_lsp',
-      'eslint', 'tsserver', 'pylsp', 'ruby_ls', 'rubocop',
+      'eslint', 'tsserver', 'pylsp', 'ruby_lsp', 'rubocop',
       'yamlls', 'jsonls', 'taplo', 'cssls', 'html', 'sqlls',
       'dockerls', 'terraformls', 'vimls', 'bashls', 'omnisharp',
     },
@@ -336,8 +344,6 @@ if is_plugins_installed() then
     mapping = cmp.mapping.preset.insert({
       ['<C-u>'] = cmp.mapping.scroll_docs(-4),
       ['<C-d>'] = cmp.mapping.scroll_docs(4),
-      ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-      ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
