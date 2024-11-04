@@ -300,7 +300,7 @@ if is_plugins_installed() then
   vim.api.nvim_set_keymap('n', '<F6>', '<cmd>lua ToggleDiagnostics()<CR>', { noremap = true, silent = true })
 
   local lspconfig = require('lspconfig')
-  local lsp_zero = require('lsp-zero').preset({})
+  local lsp_zero = require('lsp-zero')
 
   -- need to install crystalline manually for arm chip
   lspconfig.crystalline.setup({
@@ -329,7 +329,7 @@ if is_plugins_installed() then
   require('mason-lspconfig').setup({
     ensure_installed = {
       'rust_analyzer', 'gopls', 'jdtls', 'gradle_ls','clojure_lsp',
-      'eslint', 'tsserver', 'pylsp', 'ruby_ls', 'rubocop',
+      'eslint', 'ts_ls', 'pylsp', 'ruby_lsp', 'rubocop',
       'yamlls', 'jsonls', 'taplo', 'cssls', 'html', 'sqlls',
       'dockerls', 'terraformls', 'vimls', 'bashls', 'omnisharp',
     },
