@@ -329,7 +329,7 @@ if is_plugins_installed() then
   require('mason-lspconfig').setup({
     ensure_installed = {
       'rust_analyzer', 'gopls', 'jdtls', 'gradle_ls','clojure_lsp',
-      'eslint', 'ts_ls', 'pylsp', 'ruby_ls', 'rubocop',
+      'eslint', 'tsserver', 'pylsp', 'ruby_ls', 'rubocop',
       'yamlls', 'jsonls', 'taplo', 'cssls', 'html', 'sqlls',
       'dockerls', 'terraformls', 'vimls', 'bashls', 'omnisharp',
     },
