@@ -224,7 +224,7 @@ if is_plugins_installed() then
   vim.g.vim_ai_chat = {
     options = {
       endpoint_url = "https://api.openai.com/v1/chat/completions",
-      model = "gpt-4-turbo",
+      model = "gpt-4o-mini",
       --endpoint_url = "http://localhost:11434/v1/chat/completions",
       --model = "codegemma",
       temperature = 0.2,
@@ -329,7 +329,7 @@ if is_plugins_installed() then
   require('mason-lspconfig').setup({
     ensure_installed = {
       'rust_analyzer', 'gopls', 'jdtls', 'gradle_ls','clojure_lsp',
-      'eslint', 'ts_ls', 'pylsp', 'ruby_lsp', 'rubocop',
+      'eslint', 'ts_ls', 'pylsp', 'ruby_ls', 'rubocop',
       'yamlls', 'jsonls', 'taplo', 'cssls', 'html', 'sqlls',
       'dockerls', 'terraformls', 'vimls', 'bashls', 'omnisharp',
     },
