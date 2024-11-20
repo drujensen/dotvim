@@ -194,7 +194,7 @@ if is_plugins_installed() then
 
   -- NERDTree settings
   vim.g.nerdtree_tabs_focus_on_files = 1
-  vim.g.NERDTreeDirArrows = 1
+  vim.g.NERDTreeCascadeSingleChildDir = 0
 
   vim.cmd [[
     let g:NERDTreeIgnore = ['\v(obj|bin)$']
