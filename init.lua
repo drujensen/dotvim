@@ -194,6 +194,7 @@ if is_plugins_installed() then
 
   -- NERDTree settings
   vim.g.nerdtree_tabs_focus_on_files = 1
+  vim.g.NERDTreeDirArrows = 1
 
   vim.cmd [[
     let g:NERDTreeIgnore = ['\v(obj|bin)$']
@@ -224,7 +225,7 @@ if is_plugins_installed() then
   vim.g.vim_ai_chat = {
     options = {
       endpoint_url = "https://api.openai.com/v1/chat/completions",
-      model = "gpt-4o-mini",
+      model = "gpt-4o",
       --endpoint_url = "http://localhost:11434/v1/chat/completions",
       --model = "codegemma",
       temperature = 0.2,
