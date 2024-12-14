@@ -222,12 +222,17 @@ if is_plugins_installed() then
   vim.g.vim_test_recall_cs = 'execute("sp | term dotnet test")'
 
   -- AI Chat mapping
+  -- vim.g.vim_ai_debug = 0
+  -- vim.g.vim_ai_debug_log_file = 'vim_ai.log'
+  vim.g.vim_ai_token_file_path = '~/.config/xai.token'
   vim.g.vim_ai_chat = {
     options = {
-      endpoint_url = "https://api.openai.com/v1/chat/completions",
-      model = "gpt-4o",
+      --endpoint_url = "https://api.openai.com/v1/chat/completions",
+      --model = "gpt-4o",
       --endpoint_url = "http://localhost:11434/v1/chat/completions",
       --model = "codegemma",
+      endpoint_url = "https://api.x.ai/v1/chat/completions",
+      model = "grok-beta",
       temperature = 0.2,
     },
   }
