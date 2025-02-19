@@ -29,15 +29,65 @@ require("lazy").setup({
   'drujensen/vim-test-recall',
   'github/copilot.vim',
   'madox2/vim-ai',
-  { 'rcarriga/nvim-dap-ui',
-       dependencies = {'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio'}
-  },
+
   {
-    'nvim-telescope/telescope.nvim', tag = '0.1.8',
-      dependencies = { 'nvim-lua/plenary.nvim' }
-  },
-  {
-      'MoaidHathot/dotnet.nvim', cmd = "DotnetUI", opts = {},
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    lazy = false,
+    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+    opts = {
+      -- add any opts here
+      -- for example
+      provider = "openai",
+      openai = {
+        endpoint = "https://api.openai.com/v1",
+        model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+        timeout = 30000, -- timeout in milliseconds
+        temperature = 0, -- adjust if needed
+        max_tokens = 4096,
+        --reasoning_effort = "high" -- only supported for "o" models
+      },
+    },
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    build = "make",
+    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "echasnovski/mini.pick", -- for file_selector provider mini.pick
+      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+      "ibhagwan/fzf-lua", -- for file_selector provider fzf
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
   },
 
   'nicwest/vim-http',
@@ -232,18 +282,22 @@ if is_plugins_installed() then
     options = {
       --endpoint_url = "https://api.openai.com/v1/chat/completions",
       --model = "gpt-4o",
+      --model = "o3-mini",
       --endpoint_url = "http://localhost:11434/v1/chat/completions",
       --model = "codegemma",
       endpoint_url = "https://api.x.ai/v1/chat/completions",
-      model = "grok-beta",
-      temperature = 0.2,
+      model = "grok-2-1212",
+      --temperature = 0.2,
     },
   }
 
   vim.api.nvim_set_keymap('n', '<leader>a', ':AIChat', { noremap = true })
-  vim.api.nvim_set_keymap('n', '<leader>c', ':AIChat<CR>', { noremap = true })
+  --vim.api.nvim_set_keymap('n', '<leader>c', ':AIChat<CR>', { noremap = true })
   vim.api.nvim_set_keymap('x', '<leader>a', ':AIChat', { noremap = true })
-  vim.api.nvim_set_keymap('x', '<leader>c', ':AIChat<CR>', { noremap = true })
+  --vim.api.nvim_set_keymap('x', '<leader>c', ':AIChat<CR>', { noremap = true })
+
+  vim.api.nvim_set_keymap('n', '<leader>c', ':AvanteChat<CR>', { noremap = true })
+  vim.api.nvim_set_keymap('x', '<leader>c', ':AvanteChat<CR>', { noremap = true })
 
   -- Base64 Decode Selection
   vim.api.nvim_set_keymap('n', '<leader>d6', ':% !base64 -d <CR>', { noremap = true, silent = true })
@@ -308,47 +362,6 @@ if is_plugins_installed() then
   -- F6 will toggle diagnostics
   vim.api.nvim_set_keymap('n', '<F6>', '<cmd>lua ToggleDiagnostics()<CR>', { noremap = true, silent = true })
 
-  -- dotnet debugger
-  -- https://aaronbos.dev/posts/debugging-csharp-neovim-nvim-dap
-  local dap, dapui = require("dap"), require("dapui")
-  dapui.setup()
-
-  dap.adapters.coreclr = {
-    type = 'executable',
-    command = 'netcoredbg',
-    args = {'--interpreter=vscode'}
-  }
-
-  dap.configurations.cs = {
-    {
-      type = "coreclr",
-      name = "launch - netcoredbg",
-      request = "launch",
-      program = function()
-          return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
-      end,
-    },
-  }
-
-  vim.keymap.set('n', '<F7>', function() require('dap').toggle_breakpoint() end, { silent = true })
-  vim.keymap.set('n', '<F8>', function() require('dap').continue() end, { silent = true })
-  vim.keymap.set('n', '<F19>', function() require('dap').step_over() end, { silent = true })
-  vim.keymap.set('n', '<F10>', function() require('dap').step_into() end, { silent = true })
-  vim.keymap.set('n', '<F11>', function() require('dap').step_out() end, { silent = true })
-  vim.keymap.set('n', '<F12>', function() require('dap').terminate() end, { silent = true })
-
-  dap.listeners.before.attach.dapui_config = function()
-    dapui.open()
-  end
-  dap.listeners.before.launch.dapui_config = function()
-    dapui.open()
-  end
-  dap.listeners.before.event_terminated.dapui_config = function()
-    dapui.close()
-  end
-  dap.listeners.before.event_exited.dapui_config = function()
-    dapui.close()
-  end
 
   -- LSP settings
   local lspconfig = require('lspconfig')
