@@ -29,17 +29,6 @@ require("lazy").setup({
   'drujensen/vim-test-recall',
   'github/copilot.vim',
   'madox2/vim-ai',
-  { 'rcarriga/nvim-dap-ui',
-       dependencies = {'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio'}
-  },
-  {
-    'nvim-telescope/telescope.nvim', tag = '0.1.8',
-      dependencies = { 'nvim-lua/plenary.nvim' }
-  },
-  {
-      'MoaidHathot/dotnet.nvim', cmd = "DotnetUI", opts = {},
-  },
-
   'nicwest/vim-http',
   'vim-ruby/vim-ruby',
   'pangloss/vim-javascript',
@@ -307,48 +296,6 @@ if is_plugins_installed() then
 
   -- F6 will toggle diagnostics
   vim.api.nvim_set_keymap('n', '<F6>', '<cmd>lua ToggleDiagnostics()<CR>', { noremap = true, silent = true })
-
-  -- dotnet debugger
-  -- https://aaronbos.dev/posts/debugging-csharp-neovim-nvim-dap
-  local dap, dapui = require("dap"), require("dapui")
-  dapui.setup()
-
-  dap.adapters.coreclr = {
-    type = 'executable',
-    command = 'netcoredbg',
-    args = {'--interpreter=vscode'}
-  }
-
-  dap.configurations.cs = {
-    {
-      type = "coreclr",
-      name = "launch - netcoredbg",
-      request = "launch",
-      program = function()
-          return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
-      end,
-    },
-  }
-
-  vim.keymap.set('n', '<F7>', function() require('dap').toggle_breakpoint() end, { silent = true })
-  vim.keymap.set('n', '<F8>', function() require('dap').continue() end, { silent = true })
-  vim.keymap.set('n', '<F19>', function() require('dap').step_over() end, { silent = true })
-  vim.keymap.set('n', '<F10>', function() require('dap').step_into() end, { silent = true })
-  vim.keymap.set('n', '<F11>', function() require('dap').step_out() end, { silent = true })
-  vim.keymap.set('n', '<F12>', function() require('dap').terminate() end, { silent = true })
-
-  dap.listeners.before.attach.dapui_config = function()
-    dapui.open()
-  end
-  dap.listeners.before.launch.dapui_config = function()
-    dapui.open()
-  end
-  dap.listeners.before.event_terminated.dapui_config = function()
-    dapui.close()
-  end
-  dap.listeners.before.event_exited.dapui_config = function()
-    dapui.close()
-  end
 
   -- LSP settings
   local lspconfig = require('lspconfig')
