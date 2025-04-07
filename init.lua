@@ -15,6 +15,9 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   'overcache/NeoSolarized',
+  'folke/tokyonight.nvim',
+  'catppuccin/nvim',
+  'morhetz/gruvbox',
 
   'rking/ag.vim',
   'bling/vim-airline',
