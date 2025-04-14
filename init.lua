@@ -227,7 +227,7 @@ if is_plugins_installed() then
       --endpoint_url = "https://api.openai.com/v1/chat/completions",
       --model = "codegemma",
       --endpoint_url = "http://localhost:11434/v1/chat/completions",
-      model = "grok-2",
+      model = "grok-3-mini",
       endpoint_url = "https://api.x.ai/v1/chat/completions",
     },
   }
