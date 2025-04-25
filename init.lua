@@ -216,21 +216,6 @@ if is_plugins_installed() then
   vim.g.vim_test_recall_kt = 'execute("sp | term gradle test")'
   vim.g.vim_test_recall_cs = 'execute("sp | term dotnet test")'
 
-  -- AI Chat mapping
-  -- vim.g.vim_ai_debug = 1
-  -- vim.g.vim_ai_debug_log_file = 'vim_ai.log'
-  vim.g.vim_ai_token_file_path = '~/.config/xai.token'
-  vim.g.vim_ai_complete = {
-    provider = 'openai',
-    options = {
-      --model = "gpt-4o",
-      --endpoint_url = "https://api.openai.com/v1/chat/completions",
-      --model = "codegemma",
-      --endpoint_url = "http://localhost:11434/v1/chat/completions",
-      model = "grok-3-mini",
-      endpoint_url = "https://api.x.ai/v1/chat/completions",
-    },
-  }
 
   vim.api.nvim_set_keymap('n', '<leader>a', ':AIChat', { noremap = true })
   vim.api.nvim_set_keymap('n', '<leader>c', ':AIChat<CR>', { noremap = true })
@@ -240,6 +225,32 @@ if is_plugins_installed() then
   -- Base64 Decode Selection
   vim.api.nvim_set_keymap('n', '<leader>d6', ':% !base64 -d <CR>', { noremap = true, silent = true })
   vim.api.nvim_set_keymap('n', '<leader>b6', ':% !base64 <CR>', { noremap = true, silent = true })
+
+  -- Function to format XML using xmllint
+  function FormatXML()
+    local filetype = vim.bo.filetype
+    if filetype == 'xml' or filetype == 'html' then
+      vim.cmd('%!xmllint --format -')
+    else
+      print("This is not an XML file!")
+    end
+  end
+
+  -- Function to format JSON using jq
+  function FormatJSON()
+    local filetype = vim.bo.filetype
+    if filetype == 'json' then
+      vim.cmd('%!jq .')
+    else
+      print("This is not a JSON file!")
+    end
+  end
+
+  -- Map <leader>xml to format XML
+  vim.api.nvim_set_keymap('n', '<leader>x', ':lua FormatXML()<CR>', { noremap = true, silent = true })
+
+  -- Map <leader>json to format JSON
+  vim.api.nvim_set_keymap('n', '<leader>j', ':lua FormatJSON()<CR>', { noremap = true, silent = true })
 
   -- Git settings
   vim.api.nvim_set_keymap('n', '<leader>g', ':Git<Space>', { noremap = true, silent = true })
