@@ -52,6 +52,41 @@ require("lazy").setup({
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
+
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    version = false,
+    build = "make",
+    opts = {
+      provider = "openai",
+      openai = {
+        endpoint = "https://api.openai.com/v1",
+        model = "gpt-4o",
+        timeout = 30000,
+        temperature = 0,
+        max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
+        --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+      },
+    },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
+  }
 })
 
 local function is_plugins_installed()
@@ -216,15 +251,11 @@ if is_plugins_installed() then
   vim.g.vim_test_recall_kt = 'execute("sp | term gradle test")'
   vim.g.vim_test_recall_cs = 'execute("sp | term dotnet test")'
 
-
-  vim.api.nvim_set_keymap('n', '<leader>a', ':AIChat', { noremap = true })
-  vim.api.nvim_set_keymap('n', '<leader>c', ':AIChat<CR>', { noremap = true })
-  vim.api.nvim_set_keymap('x', '<leader>a', ':AIChat', { noremap = true })
-  vim.api.nvim_set_keymap('x', '<leader>c', ':AIChat<CR>', { noremap = true })
-
-  -- Base64 Decode Selection
-  vim.api.nvim_set_keymap('n', '<leader>d6', ':% !base64 -d <CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '<leader>b6', ':% !base64 <CR>', { noremap = true, silent = true })
+-- Vim AI settings
+--  vim.api.nvim_set_keymap('n', '<leader>a', ':AIChat', { noremap = true })
+--  vim.api.nvim_set_keymap('n', '<leader>c', ':AIChat<CR>', { noremap = true })
+--  vim.api.nvim_set_keymap('x', '<leader>a', ':AIChat', { noremap = true })
+--  vim.api.nvim_set_keymap('x', '<leader>c', ':AIChat<CR>', { noremap = true })
 
   -- Function to format XML using xmllint
   function FormatXML()
@@ -246,10 +277,10 @@ if is_plugins_installed() then
     end
   end
 
-  -- Map <leader>xml to format XML
+  -- Map formatting tools
+  vim.api.nvim_set_keymap('n', '<leader>d6', ':% !base64 -d <CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<leader>b6', ':% !base64 <CR>', { noremap = true, silent = true })
   vim.api.nvim_set_keymap('n', '<leader>x', ':lua FormatXML()<CR>', { noremap = true, silent = true })
-
-  -- Map <leader>json to format JSON
   vim.api.nvim_set_keymap('n', '<leader>j', ':lua FormatJSON()<CR>', { noremap = true, silent = true })
 
   -- Git settings
