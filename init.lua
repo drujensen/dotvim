@@ -222,35 +222,11 @@ if is_plugins_installed() then
   vim.api.nvim_set_keymap('x', '<leader>a', ':AIChat', { noremap = true })
   vim.api.nvim_set_keymap('x', '<leader>c', ':AIChat<CR>', { noremap = true })
 
-  -- Base64 Decode Selection
+  -- formatting
   vim.api.nvim_set_keymap('n', '<leader>d6', ':% !base64 -d <CR>', { noremap = true, silent = true })
   vim.api.nvim_set_keymap('n', '<leader>b6', ':% !base64 <CR>', { noremap = true, silent = true })
-
-  -- Function to format XML using xmllint
-  function FormatXML()
-    local filetype = vim.bo.filetype
-    if filetype == 'xml' or filetype == 'html' then
-      vim.cmd('%!xmllint --format -')
-    else
-      print("This is not an XML file!")
-    end
-  end
-
-  -- Function to format JSON using jq
-  function FormatJSON()
-    local filetype = vim.bo.filetype
-    if filetype == 'json' then
-      vim.cmd('%!jq .')
-    else
-      print("This is not a JSON file!")
-    end
-  end
-
-  -- Map <leader>xml to format XML
-  vim.api.nvim_set_keymap('n', '<leader>x', ':lua FormatXML()<CR>', { noremap = true, silent = true })
-
-  -- Map <leader>json to format JSON
-  vim.api.nvim_set_keymap('n', '<leader>j', ':lua FormatJSON()<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<leader>x', ':% !xmllint --format - <CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<leader>j', ':% !jq . <CR>', { noremap = true, silent = true })
 
   -- Git settings
   vim.api.nvim_set_keymap('n', '<leader>g', ':Git<Space>', { noremap = true, silent = true })
