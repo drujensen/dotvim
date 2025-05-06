@@ -192,10 +192,10 @@ if is_plugins_installed() then
   vim.g.NERDTreeCascadeSingleChildDir = 0
 
   vim.cmd [[
-    let g:NERDTreeIgnore = ['\v(obj|bin)$']
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   ]]
+  -- let g:NERDTreeIgnore = ['\v(obj|bin)$']
 
   vim.g.mapleader = ","
 
