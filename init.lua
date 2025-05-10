@@ -291,15 +291,15 @@ if is_plugins_installed() then
   local lspconfig = require('lspconfig')
   local lsp_zero = require('lsp-zero')
 
-  -- need to install crystalline manually for arm chip
-  lspconfig.crystalline.setup({
-    on_attach = lsp_zero.on_attach,
-  })
-
-  -- mojo not supported by mason yet
-  --
-  lspconfig.mojo.setup({
-    on_attach = lsp_zero.on_attach,
+  vim.diagnostic.config({
+    virtual_text = {
+      prefix = '●',
+      source = 'always',
+    },
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
   })
 
   lsp_zero.set_sign_icons({
@@ -310,8 +310,14 @@ if is_plugins_installed() then
   })
 
   lsp_zero.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  lsp_zero.default_keymaps({buffer = bufnr})
+    -- Default lsp-zero keybindings
+    lsp_zero.default_keymaps({ buffer = bufnr })
+    -- Explicit F4 keybinding for code actions
+    vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action, { buffer = bufnr, desc = 'LSP: Code Action' })
+    -- Additional useful keybindings
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = 'LSP: Hover' })
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = 'LSP: Go to Definition' })
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = 'LSP: Rename' })
   end)
 
   require('mason').setup({})
@@ -324,6 +330,34 @@ if is_plugins_installed() then
     },
     handlers = {
       lsp_zero.default_setup,
+
+      gopls = function()
+        require('lspconfig').gopls.setup({
+          on_attach = lsp_zero.on_attach,
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,
+                shadow = true,
+              },
+              staticcheck = true,
+              completeUnimported = true,
+              usePlaceholders = true,
+              hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                parameterNames = true,
+              },
+            },
+          },
+        })
+      end,
+
+      crystalline = function()
+        require('lspconfig').crystalline.setup({
+          on_attach = lsp_zero.on_attach,
+        })
+      end,
     }
   })
 
@@ -332,9 +366,11 @@ if is_plugins_installed() then
 
   cmp.setup({
     sources = {
-      {name = 'path'},
-      {name = 'nvim_lsp'},
-      {name = 'nvim_lua'},
+      { name = 'path' },
+      { name = 'nvim_lsp' },
+      { name = 'nvim_lua' },
+      { name = 'buffer', keyword_length = 3 },
+      { name = 'luasnip', keyword_length = 2 },
     },
     formatting = cmp_format,
     mapping = cmp.mapping.preset.insert({
@@ -345,4 +381,6 @@ if is_plugins_installed() then
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
   })
+
+  vim.o.timeoutlen = 1000
 end
