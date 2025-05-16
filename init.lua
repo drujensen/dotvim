@@ -159,7 +159,7 @@ if is_plugins_installed() then
   -- Open a terminal in a new split
   local os_name = vim.loop.os_uname().sysname
   local term_cmd = os_name == "Windows_NT" and "pwsh" or "bash"
-  vim.api.nvim_set_keymap('', '<C-\\>', '<Esc>:sp | term ' .. term_cmd .. '<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('', '<C-\\>', '<Esc>:sp | resize 15 | term ' .. term_cmd .. '<CR>', { noremap = true, silent = true })
 
   -- vim-airline settings
   vim.cmd [[
