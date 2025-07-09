@@ -52,6 +52,16 @@ require("lazy").setup({
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
+
+  {
+    'rcarriga/nvim-dap-ui',
+    dependencies = {
+      'mfussenegger/nvim-dap',
+      'nvim-lua/plenary.nvim',
+      'leoluz/nvim-dap-go',
+      'nvim-neotest/nvim-nio',
+    }
+  },
 })
 
 local function is_plugins_installed()
@@ -223,8 +233,8 @@ if is_plugins_installed() then
   vim.api.nvim_set_keymap('x', '<leader>c', ':AIChat<CR>', { noremap = true })
 
   -- formatting
-  vim.api.nvim_set_keymap('n', '<leader>d6', ':% !base64 -d <CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '<leader>b6', ':% !base64 <CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<leader>6d', ':% !base64 -d <CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<leader>6e', ':% !base64 <CR>', { noremap = true, silent = true })
   vim.api.nvim_set_keymap('n', '<leader>x', ':% !xmllint --format - <CR>', { noremap = true, silent = true })
   vim.api.nvim_set_keymap('n', '<leader>j', ':% !jq . <CR>', { noremap = true, silent = true })
 
@@ -270,8 +280,8 @@ if is_plugins_installed() then
   -- Mapping for SearchAndReplace
   vim.api.nvim_set_keymap('n', '<leader>r', ':lua SearchAndReplace()<CR>', { noremap = true, silent = true })
 
-  -- F5 will remove all trailing spaces
-  vim.api.nvim_set_keymap('n', '<F5>', [[<cmd>lua vim.cmd('%s/\\s\\+$//e')<CR>]], { noremap = true, silent = true })
+  -- remove all trailing spaces
+  vim.api.nvim_set_keymap('n', '<F3>', [[<cmd>lua vim.cmd('%s/\\s\\+$//e')<CR>]], { noremap = true, silent = true })
 
   -- ToggleDiagnostics function equivalent in Lua
   function ToggleDiagnostics()
@@ -382,5 +392,33 @@ if is_plugins_installed() then
     }),
   })
 
-  vim.o.timeoutlen = 1000
+  --vim.o.timeoutlen = 1000
+
+  -- DAP (Debug Adapter Protocol)
+  require("dapui").setup()
+
+  -- Open the UI automatically when debugging starts
+  local dap, dapui = require("dap"), require("dapui")
+  dap.listeners.after.event_initialized["dapui_config"] = function()
+    dapui.open()
+  end
+
+  -- Close the UI when debugging terminates
+  dap.listeners.after.event_terminated["dapui_config"] = function()
+    dapui.close()
+  end
+  dap.listeners.after.event_exited["dapui_config"] = function()
+    dapui.close()
+  end
+
+  -- Optional: keybindings for debugging
+  vim.api.nvim_set_keymap('n', '<Leader>b', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap=true })
+  vim.api.nvim_set_keymap('n', '<F5>', ":lua require'dap'.continue()<CR>", { noremap=true })
+  vim.api.nvim_set_keymap('n', '<F7>', ":lua require'dap'.step_out()<CR>", { noremap=true })
+  vim.api.nvim_set_keymap('n', '<F8>', ":lua require'dap'.step_over()<CR>", { noremap=true })
+  vim.api.nvim_set_keymap('n', '<F9>', ":lua require'dap'.step_into()<CR>", { noremap=true })
+
+  -- Configure Delve debugger for Go
+  require('dap-go').setup()
+
 end
