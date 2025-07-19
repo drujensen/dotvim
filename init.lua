@@ -19,7 +19,6 @@ require("lazy").setup({
   'catppuccin/nvim',
   'morhetz/gruvbox',
 
-  'rking/ag.vim',
   'bling/vim-airline',
   'kien/ctrlp.vim',
   'scrooloose/nerdtree',
@@ -52,7 +51,6 @@ require("lazy").setup({
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
-
   {
     'rcarriga/nvim-dap-ui',
     dependencies = {
@@ -62,6 +60,12 @@ require("lazy").setup({
       'nvim-neotest/nvim-nio',
     }
   },
+  {
+     'nvim-telescope/telescope.nvim', tag = '0.1.5',
+     dependencies = {
+       'nvim-lua/plenary.nvim'
+     }
+  }
 })
 
 local function is_plugins_installed()
@@ -186,16 +190,15 @@ if is_plugins_installed() then
     au Syntax * RainbowParenthesesLoadBraces
   ]]
 
-  -- The Silver Searcher - brew install the_silver_searcher
+  -- Rip Grep - brew install ripgrep
   -- Use ag over grep
-  vim.o.grepprg = 'ag --nogroup --nocolor'
+  vim.o.grepprg = 'rg --vimgrep'
 
-  -- Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  vim.g.ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  -- Use rg in CtrlP for listing files. Lightning fast and respects .gitignore
+  vim.g.ctrlp_user_command = 'rg %s -l -g ""'
 
-  -- ag is fast enough that CtrlP doesn't need to cache
+  -- rg is fast enough that CtrlP doesn't need to cache
   vim.g.ctrlp_use_caching = 0
-  vim.g.ag_working_path_mode = "r"
 
   -- NERDTree settings
   vim.g.nerdtree_tabs_focus_on_files = 1
@@ -255,12 +258,33 @@ if is_plugins_installed() then
   function GlobalFind()
     local word = vim.fn.input('Search: ', vim.fn.expand('<cword>'))
     if word ~= '' then
-      vim.cmd('Ag ' .. word .. ' --ignore obj --ignore bin')
+      local command = 'rg --vimgrep ' .. vim.fn.shellescape(word) .. ' --glob "!obj" --glob "!bin" .'
+      local results = vim.fn.system(command)
+      local qflist = {}
+      for line in string.gmatch(results, '[^\r\n]+') do
+        local filename, lnum, col, message = string.match(line, "^([^:]+):(%d+):(%d+):(.*)")
+        if filename then
+          table.insert(qflist, {
+            filename = vim.fn.fnamemodify(filename, ":p"), -- Get absolute path
+            lnum = tonumber(lnum),
+            col = tonumber(col),
+            text = message
+          })
+        end
+      end
+      vim.fn.setqflist({}, ' ', { title = 'Global Find: ' .. word, items = qflist })
+      vim.cmd('copen') -- Open the quickfix list
     end
   end
 
   -- Mapping for GlobalFind
   vim.api.nvim_set_keymap('n', '<leader>f', ':lua GlobalFind()<CR>', { noremap = true, silent = true })
+
+  local telescope = require('telescope.builtin')
+  vim.keymap.set('n', '<leader>ff', telescope.find_files, { desc = '[F]ind [F]iles' })
+  vim.keymap.set('n', '<leader>fg', telescope.live_grep, { desc = '[F]ind [G]rep' })
+  vim.keymap.set('n', '<leader>fb', telescope.buffers, { desc = '[F]ind [B]uffers' })
+  vim.keymap.set('n', '<leader>fh', telescope.help_tags, { desc = '[F]ind [H]elp' })
 
   -- SearchAndReplace function equivalent in Lua
   function SearchAndReplace()
@@ -419,6 +443,17 @@ if is_plugins_installed() then
   vim.api.nvim_set_keymap('n', '<F9>', ":lua require'dap'.step_into()<CR>", { noremap=true })
 
   -- Configure Delve debugger for Go
-  require('dap-go').setup()
+  require('dap-go').setup({
+    dap_configurations = {
+      {
+        type = 'go',
+        name = 'Debug Terminal',
+        request = 'launch',
+        program = 'main.go',
+        dlvToolPath = vim.fn.exepath('dlv'),
+        console = 'integratedTerminal'
+      },
+    }
+  })
 
 end
