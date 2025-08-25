@@ -258,7 +258,7 @@ if is_plugins_installed() then
   function GlobalFind()
     local word = vim.fn.input('Search: ', vim.fn.expand('<cword>'))
     if word ~= '' then
-      local command = 'rg --vimgrep ' .. vim.fn.shellescape(word) .. ' --glob "!obj" --glob "!bin" .'
+      local command = 'rg --vimgrep ' .. vim.fn.shellescape(word) .. ' --glob \'!obj/*\' --glob \'!bin/*\' .'
       local results = vim.fn.system(command)
       local qflist = {}
       for line in string.gmatch(results, '[^\r\n]+') do
