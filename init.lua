@@ -230,9 +230,9 @@ if is_plugins_installed() then
   vim.g.vim_test_recall_cs = 'execute("sp | term dotnet test")'
 
 
-  vim.api.nvim_set_keymap('n', '<leader>a', ':AIChat /right ', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<leader>a', ':AIChat ', { noremap = true })
   vim.api.nvim_set_keymap('n', '<leader>c', ':AIChat<CR>', { noremap = true })
-  vim.api.nvim_set_keymap('x', '<leader>a', ':AIChat /right ', { noremap = true })
+  vim.api.nvim_set_keymap('x', '<leader>a', ':AIChat ', { noremap = true })
   vim.api.nvim_set_keymap('x', '<leader>c', ':AIChat<CR>', { noremap = true })
 
   -- formatting
