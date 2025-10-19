@@ -65,7 +65,8 @@ require("lazy").setup({
      dependencies = {
        'nvim-lua/plenary.nvim'
      }
-  }
+  },
+  { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' }
 })
 
 local function is_plugins_installed()
@@ -456,4 +457,12 @@ if is_plugins_installed() then
     }
   })
 
+  -- vim ai settings
+  vim.g.vim_ai_chat = {
+    options = {
+      endpoint_url = "https://ai.drujensen.com/v1/chat/completions",
+      model = "qwen3-coder:30b",
+      token_file_path = "/home/dru/.config/drujensen.token"
+    }
+  }
 end
