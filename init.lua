@@ -359,8 +359,7 @@ if is_plugins_installed() then
   require('mason-lspconfig').setup({
     ensure_installed = {
       'rust_analyzer', 'gopls', 'jdtls', 'gradle_ls','clojure_lsp',
-      'eslint', 'ts_ls', 'pylsp', 'ruby_lsp', 'rubocop',
-      'yamlls', 'jsonls', 'taplo', 'cssls', 'html', 'sqlls',
+      'eslint', 'ts_ls', 'pylsp', 'yamlls', 'jsonls', 'taplo', 'cssls', 'html', 'sqlls',
       'dockerls', 'terraformls', 'vimls', 'bashls', 'omnisharp',
     },
     handlers = {
@@ -462,7 +461,7 @@ if is_plugins_installed() then
     options = {
       endpoint_url = "https://ai.drujensen.com/v1/chat/completions",
       model = "qwen3-coder:30b",
-      token_file_path = "/home/dru/.config/drujensen.token"
+      token_file_path = "/home/drujensen/.config/drujensen.token"
     }
   }
 end
