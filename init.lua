@@ -259,10 +259,14 @@ if is_plugins_installed() then
   function GlobalFind()
     local word = vim.fn.input('Search: ', vim.fn.expand('<cword>'))
     if word ~= '' then
-      local command = 'rg --vimgrep ' .. vim.fn.shellescape(word) .. ' --glob \'!obj/*\' --glob \'!bin/*\' .'
-      local results = vim.fn.system(command)
+      local command = { 'rg', '--vimgrep', word, '--glob', '!obj/*', '--glob', '!bin/*', '.' }
+      local results = vim.fn.systemlist(command)
+      if vim.v.shell_error ~= 0 and #results == 0 then
+        vim.notify('GlobalFind failed (is ripgrep available in PATH?)', vim.log.levels.ERROR)
+        return
+      end
       local qflist = {}
-      for line in string.gmatch(results, '[^\r\n]+') do
+      for _, line in ipairs(results) do
         local filename, lnum, col, message = string.match(line, "^([^:]+):(%d+):(%d+):(.*)")
         if filename then
           table.insert(qflist, {
