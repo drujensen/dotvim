@@ -21,8 +21,15 @@ require("lazy").setup({
 
   'bling/vim-airline',
   'kien/ctrlp.vim',
-  'scrooloose/nerdtree',
-  'Xuyuanp/nerdtree-git-plugin',
+   {
+     "nvim-neo-tree/neo-tree.nvim",
+     branch = "v3.x",
+     dependencies = {
+       "nvim-lua/plenary.nvim",
+       "nvim-tree/nvim-web-devicons",
+       "MunifTanjim/nui.nvim",
+     },
+   },
   'ddollar/nerdcommenter',
   'airblade/vim-gitgutter',
   'majutsushi/tagbar',
@@ -162,10 +169,29 @@ if is_plugins_installed() then
 
   -- Custom mappings for various actions
   vim.api.nvim_set_keymap('', '<C-a>', '<esc>ggVG<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('', '<C-b>', ':buffers<CR>:buffer ', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('', '<C-l>', ':TagbarToggle<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('', '<C-n>', ':NERDTreeToggle<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('', '<C-f>', ':NERDTreeFind<CR>', { noremap = true, silent = true })
+   vim.keymap.set("n", "<C-b>", function()
+     require("neo-tree.command").execute({
+       source = "buffers",
+       position = "left",
+     })
+   end, { desc = "Open Neo-tree buffers (left)" })
+
+   vim.keymap.set("n", "<C-n>", function()
+     require("neo-tree.command").execute({
+       source = "filesystem",
+       position = "left",
+       toggle = true,
+     })
+   end, { desc = "Toggle Neo-tree filesystem (left)" })
+
+   vim.keymap.set("n", "<C-g>", function()
+     require("neo-tree.command").execute({
+       source = "git_status",
+       position = "left",
+       toggle = true,
+     })
+   end, { desc = "Toggle Neo-tree git_status (left)" })
+
 
   -- NERDCommenter mappings
   vim.api.nvim_set_keymap('n', '<C-_>', '<Plug>NERDCommenterToggle', { noremap = true, silent = true })
@@ -184,12 +210,31 @@ if is_plugins_installed() then
   ]]
 
   -- Rainbow Parentheses
-  vim.cmd [[
-    au VimEnter * RainbowParenthesesToggle
-    au Syntax *  RainbowParenthesesLoadRound
-    au Syntax * RainbowParenthesesLoadSquare
-    au Syntax * RainbowParenthesesLoadBraces
-  ]]
+   vim.cmd [[
+     au VimEnter * RainbowParenthesesToggle
+     au Syntax *  RainbowParenthesesLoadRound
+     au Syntax * RainbowParenthesesLoadSquare
+     au Syntax * RainbowParenthesesLoadBraces
+   ]]
+
+   require("neo-tree").setup({
+     sources = { "filesystem", "buffers", "git_status" },
+     source_selector = {
+       winbar = true,
+       sources = {
+         { source = "filesystem" },
+         { source = "buffers" },
+         { source = "git_status" },
+       },
+     },
+     window = {
+       mappings = {
+         ["<Tab>"] = false,
+         ["<S-Tab>"] = false,
+         ["I"] = "toggle_hidden",
+       },
+     },
+   })
 
   -- Rip Grep - brew install ripgrep
   -- Use ag over grep
@@ -201,16 +246,7 @@ if is_plugins_installed() then
   -- rg is fast enough that CtrlP doesn't need to cache
   vim.g.ctrlp_use_caching = 0
 
-  -- NERDTree settings
-  vim.g.nerdtree_tabs_focus_on_files = 1
-  vim.g.NERDTreeCascadeSingleChildDir = 0
-
-  vim.cmd [[
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-  ]]
-  -- let g:NERDTreeIgnore = ['\v(obj|bin)$']
-
+  -- Set leader key to comma
   vim.g.mapleader = ","
 
   -- Map all the run test calls provided by vim-test-recall
