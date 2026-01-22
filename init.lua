@@ -190,21 +190,8 @@ if is_plugins_installed() then
        position = "left",
        toggle = true,
      })
-    end, { desc = "Toggle Neo-tree git_status (left)" })
+   end, { desc = "Toggle Neo-tree git_status (left)" })
 
-    vim.keymap.set('n', '<C-f>', function()
-        local current_file = vim.api.nvim_buf_get_name(0)
-        if current_file == '' then
-            return
-        end
-        require("neo-tree.command").execute({
-            action = "focus",
-            source = "filesystem",
-            position = "left",
-            reveal = true,
-            reveal_file = current_file,
-        })
-    end, { desc = "Reveal current file in Neo-tree" })
 
   -- NERDCommenter mappings
   vim.api.nvim_set_keymap('n', '<C-_>', '<Plug>NERDCommenterToggle', { noremap = true, silent = true })
