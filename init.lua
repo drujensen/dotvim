@@ -464,7 +464,7 @@ if is_plugins_installed() then
   vim.g.vim_ai_chat = {
     options = {
       endpoint_url = "https://ai.drujensen.com/v1/chat/completions",
-      model = "qwen3-coder:30b",
+      model = "qwen3-coder",
       token_file_path = "/home/drujensen/.config/drujensen.token"
     }
   }
