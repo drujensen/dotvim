@@ -29,7 +29,7 @@ require("lazy").setup({
   'kien/rainbow_parentheses.vim',
   'tpope/vim-fugitive',
   'drujensen/vim-test-recall',
-  'github/copilot.vim',
+
   'madox2/vim-ai',
   'nicwest/vim-http',
   'vim-ruby/vim-ruby',
@@ -121,8 +121,7 @@ if is_plugins_installed() then
   -- AutoFormat rust files on save
   vim.g.rustfmt_autosave = 2
 
-  -- enable copilot for all files
-  vim.g.copilot_filetypes = { ['*'] = true }
+
 
   vim.api.nvim_create_autocmd({"FileType"}, {
     pattern = {"ruby", "eruby"},
@@ -231,10 +230,12 @@ if is_plugins_installed() then
   vim.g.vim_test_recall_cs = 'execute("sp | term dotnet test")'
 
 
-  vim.api.nvim_set_keymap('n', '<leader>a', ':AIChat ', { noremap = true })
-  vim.api.nvim_set_keymap('n', '<leader>c', ':AIChat<CR>', { noremap = true })
-  vim.api.nvim_set_keymap('x', '<leader>a', ':AIChat ', { noremap = true })
-  vim.api.nvim_set_keymap('x', '<leader>c', ':AIChat<CR>', { noremap = true })
+   vim.api.nvim_set_keymap('n', '<leader>a', ':AIChat ', { noremap = true })
+   vim.api.nvim_set_keymap('n', '<leader>c', ':AIChat<CR>', { noremap = true })
+   vim.api.nvim_set_keymap('x', '<leader>a', ':AIChat ', { noremap = true })
+   vim.api.nvim_set_keymap('x', '<leader>c', ':AIChat<CR>', { noremap = true })
+
+
 
   -- formatting
   vim.api.nvim_set_keymap('n', '<leader>6d', ':% !base64 -d <CR>', { noremap = true, silent = true })
@@ -461,11 +462,15 @@ if is_plugins_installed() then
   })
 
   -- vim ai settings
-  vim.g.vim_ai_chat = {
-    options = {
-      endpoint_url = "https://ai.drujensen.com/v1/chat/completions",
-      model = "qwen3-coder",
-      token_file_path = "/home/drujensen/.config/drujensen.token"
-    }
-  }
+   vim.g.vim_ai = {
+     options = {
+       provider = "openai",
+       endpoint_url = "https://ai.drujensen.com/v1/chat/completions",
+       model = "qwen3-coder",
+       token_file_path = vim.fn.expand("~/.config/drujensen.token")
+     }
+   }
+
+   vim.g.vim_ai_chat = vim.g.vim_ai
+   vim.g.vim_ai_complete = vim.g.vim_ai
 end
