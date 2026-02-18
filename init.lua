@@ -31,6 +31,8 @@ require("lazy").setup({
   'drujensen/vim-test-recall',
 
   'madox2/vim-ai',
+  'github/copilot.vim',
+
   'nicwest/vim-http',
   'vim-ruby/vim-ruby',
   'pangloss/vim-javascript',
