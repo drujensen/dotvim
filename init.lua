@@ -30,8 +30,7 @@ require("lazy").setup({
   'tpope/vim-fugitive',
   'drujensen/vim-test-recall',
 
-  'madox2/vim-ai',
-  'github/copilot.vim',
+  'drujensen/vim-chat',
 
   'nicwest/vim-http',
   'vim-ruby/vim-ruby',
@@ -232,10 +231,8 @@ if is_plugins_installed() then
   vim.g.vim_test_recall_cs = 'execute("sp | term dotnet test")'
 
 
-   vim.api.nvim_set_keymap('n', '<leader>a', ':AIChat ', { noremap = true })
-   vim.api.nvim_set_keymap('n', '<leader>c', ':AIChat<CR>', { noremap = true })
-   vim.api.nvim_set_keymap('x', '<leader>a', ':AIChat ', { noremap = true })
-   vim.api.nvim_set_keymap('x', '<leader>c', ':AIChat<CR>', { noremap = true })
+   -- vim-chat sets these <leader>a/<leader>c keymaps itself; disabled here
+   -- via vim.g.vim_chat.keymaps below to avoid double-binding.
 
 
 
@@ -463,16 +460,13 @@ if is_plugins_installed() then
     }
   })
 
-  -- vim ai settings
-   vim.g.vim_ai = {
-     options = {
-       provider = "openai",
-       endpoint_url = "https://ai.drujensen.com/v1/chat/completions",
-       model = "qwen3-coder",
-       token_file_path = vim.fn.expand("~/.config/drujensen.token")
-     }
+  -- vim-chat settings
+   vim.g.vim_chat = {
+     endpoint_url = "https://ai.drujensen.com/v1/chat/completions",
+     model = "ornith:latest", -- chat
+     api_key_env = "DRUJENSEN_API_KEY",
+     completion = {
+       model = "qwen3-coder:30b", -- ghost-text completion (fast, no reasoning)
+     },
    }
-
-   vim.g.vim_ai_chat = vim.g.vim_ai
-   vim.g.vim_ai_complete = vim.g.vim_ai
 end
